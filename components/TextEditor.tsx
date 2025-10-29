@@ -86,6 +86,7 @@ const TextEditor = ({ content, contentTitle, id }: EditorProps) => {
   return (
     <div className="max-w-4xl mx-auto mt-8 mb-12">
       {/* Toolbar */}
+      <h1 className="text-2xl font-bold mb-4">{contentTitle}</h1>
       <div className="sticky top-0 z-10 mb-1 bg-zinc-900/95 backdrop-blur-sm border border-zinc-800 rounded-t-xl shadow-lg flex items-center justify-between">
         <div className="flex items-center gap-1 p-2 flex-wrap">
           <Toggle

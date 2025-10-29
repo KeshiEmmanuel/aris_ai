@@ -5,12 +5,14 @@ import Link from "next/link";
 
 const SideBar = () => {
   return (
-    <nav className="absolute font-sans top-0 right-0 w-20 h-full">
-      <div className="pt-3 flex flex-col items-center justify-center gap-3">
+    <nav className="fixed font-sans top-4 right-0 w-20 h-full">
+      <div className="pt-3 flex flex-col items-center justify-center gap-5">
         <ProfileSection />
-        <FaCog className=" text-gray-300" />
+        <Link href="/dashboard/settings">
+          <FaCog className=" text-gray-400" />
+        </Link>
         <Link href="/dashboard/contents">
-          <FaHistory className=" text-gray-300" />
+          <FaHistory className=" text-gray-400" />
         </Link>
       </div>
     </nav>

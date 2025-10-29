@@ -51,3 +51,31 @@ export default async function getUserPersona() {
   }
   return company[0];
 }
+
+export async function updateUserPersona(userPersona: UserProfile) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase
+    .from("user_company")
+    .update({
+      company_name: userPersona.companyName,
+      product_description: userPersona.companyProductDescription,
+      industry: userPersona.companyIndustry,
+      target_audience: userPersona.targetAudienceJobTitle,
+      technical_level: userPersona.targetAudienceTechnicalLevel,
+      brand_voice_style: userPersona.companyVoiceTone,
+      brand_voice_samples: userPersona.companyContentTemplate,
+      key_benefits: userPersona.companyProductBenefits,
+      differentiator: userPersona.companyKeyDifferentiator,
+    })
+    .eq("user_id", user?.id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
