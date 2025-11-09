@@ -1,92 +1,207 @@
+import { createAdminClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/utils/actions/auth.actions";
 import { Webhooks } from "@dodopayments/nextjs";
 
-/**
- * Dodo Payments Webhook Handler
- * Docs: https://docs.dodopayments.com/developer-resources/nextjs-adaptor
- *
- * Ensure the following env var is set:
- * - DODO_WEBHOOK_SECRET
- *
- * Configure your Dodo dashboard to POST webhooks to the deployed URL ending with `/webhook`.
- */
 export const POST = Webhooks({
   webhookKey: process.env.DODO_WEBHOOK_SECRET!,
-  onPayload: async (payload) => {
-    // Called for every verified event
-    console.log("Dodo webhook:", payload.type);
-  },
 
-  // Payment lifecycle
   onPaymentSucceeded: async (payload) => {
-    console.log("payment.succeeded:", payload.data?.payment_id);
-    // TODO: Mark payment as successful in your DB and grant entitlements if applicable
+    await handlePaymentSuceeded(payload);
+    console.log("Payment succeeded:", payload);
+    // Update your database, send confirmation email, etc.
   },
+
+  // Handle failed payments
   onPaymentFailed: async (payload) => {
-    console.log("payment.failed:", payload.data?.payment_id);
-    // TODO: Record failure and surface to user or retry flows
-  },
-  onPaymentProcessing: async (payload) => {
-    console.log("payment.processing:", payload.data?.payment_id);
-  },
-  onPaymentCancelled: async (payload) => {
-    console.log("payment.cancelled:", payload.data?.payment_id);
+    await handlePaymentFailed(payload);
+    console.log("Payment failed:", payload);
+    // Notify customer, log for review, etc.
   },
 
-  // Subscription lifecycle
-  onSubscriptionActive: async (payload) => {
-    console.log("subscription.active:", payload.data?.subscription_id);
-    // TODO: Grant user access to paid features
-  },
+  // Handle subscription renewals
   onSubscriptionRenewed: async (payload) => {
-    console.log("subscription.renewed:", payload.data?.subscription_id);
+    await handleSubscriptionRenewed(payload);
+
+    console.log("Subscription renewed:", payload);
+    // Extend user access, update billing date, etc.
   },
-  onSubscriptionPlanChanged: async (payload) => {
-    console.log("subscription.plan_changed:", payload.data?.subscription_id);
+  onSubscriptionActive: async (payload) => {
+    await manageSubscription(payload);
+    console.log("Subscription Active:", payload);
+    // Extend user access, update billing date, etc.
   },
+
+  // Handle subscription cancellations
   onSubscriptionCancelled: async (payload) => {
-    console.log("subscription.cancelled:", payload.data?.subscription_id);
-    // TODO: Revoke or schedule downgrade
+    await handleSubscriptionCancelled(payload);
+    console.log("Subscription cancelled:", payload);
+    // Revoke access, send exit survey, etc.
   },
-  onSubscriptionFailed: async (payload) => {
-    console.log("subscription.failed:", payload.data?.subscription_id);
-  },
+  // Handle subscription cancellations
   onSubscriptionExpired: async (payload) => {
-    console.log("subscription.expired:", payload.data?.subscription_id);
+    console.log("Subscription expired:", payload);
+    // Revoke access, send exit survey, etc.
   },
 
-  // Refunds
   onRefundSucceeded: async (payload) => {
-    console.log("refund.succeeded:", payload.data?.refund_id);
+    await manageRefund(payload);
   },
-  onRefundFailed: async (payload) => {
-    console.log("refund.failed:", payload.data?.refund_id);
-  },
-
-  // Disputes
-  onDisputeOpened: async (payload) => {
-    console.log("dispute.opened:", payload.data?.dispute_id);
-  },
-  onDisputeExpired: async (payload) => {
-    console.log("dispute.expired:", payload.data?.dispute_id);
-  },
-  onDisputeAccepted: async (payload) => {
-    console.log("dispute.accepted:", payload.data?.dispute_id);
-  },
-  onDisputeCancelled: async (payload) => {
-    console.log("dispute.cancelled:", payload.data?.dispute_id);
-  },
-  onDisputeChallenged: async (payload) => {
-    console.log("dispute.challenged:", payload.data?.dispute_id);
-  },
-  onDisputeWon: async (payload) => {
-    console.log("dispute.won:", payload.data?.dispute_id);
-  },
-  onDisputeLost: async (payload) => {
-    console.log("dispute.lost:", payload.data?.dispute_id);
-  },
-
-  // License keys
-  onLicenseKeyCreated: async (payload) => {
-    console.log("license_key.created:", payload.data?.id);
+  // Catch-all for any other events
+  onPayload: async (payload) => {
+    console.log("Other webhook event:", payload);
   },
 });
+
+const manageRefund = async (payload: any) => {
+  const supabase = await createAdminClient();
+  const refund = payload.data;
+  console.log("💸 Refund created:", refund.refund_id);
+
+  await supabase.from("refunds").insert({
+    refund_id: refund.refund_id,
+    payment_id: refund.payment_id,
+    amount: refund.amount,
+    reason: refund.reason,
+    status: "pending",
+    created_at: new Date().toISOString(),
+  });
+};
+
+const manageSubscription = async (event: any) => {
+  const { data } = event;
+
+  const supabase = await createAdminClient();
+  // Update or insert subscription in your database
+  const currentUser = await getCurrentUser();
+  const { error } = await supabase.from("subscriptions").upsert(
+    {
+      subscription_id: data.subscription_id,
+      customer_id: data.customer.customer_id,
+      user_id: currentUser?.id,
+      product_id: data.product_id,
+      status: data.status,
+      price_cents: data.recurring_pre_tax_amount,
+      currency: data.currency,
+      billing_period: `${data.payment_frequency_count}_${data.payment_frequency_interval}`,
+      quantity: data.quantity,
+      current_period_start: data.previous_billing_date,
+      current_period_end: data.next_billing_date,
+      cancel_at_period_end: data.cancel_at_next_billing_date,
+      cancelled_at: data.cancelled_at,
+      trial_period_days: data.trial_period_days,
+      tax_inclusive: data.tax_inclusive,
+      on_demand: data.on_demand,
+      metadata: data.metadata,
+      billing_address: data.billing,
+      updated_at: new Date().toISOString(),
+      created_at: data.created_at,
+    },
+    {
+      onConflict: "subscription_id",
+    },
+  );
+
+  if (error) {
+    console.error("❌ Error upserting subscription:", error);
+    throw error;
+  }
+};
+
+const handleSubscriptionCancelled = async (payload: any) => {
+  const { data } = payload;
+  const supabase = await createAdminClient();
+  console.log("❌ Subscription cancelled:", data.subscription_id);
+
+  const { error } = await supabase
+    .from("subscriptions")
+    .update({
+      status: data.status,
+      cancel_at_period_end: data.cancel_at_next_billing_date,
+      cancelled_at: data.cancelled_at || new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    })
+    .eq("subscription_id", data.subscription_id);
+
+  if (error) throw error;
+};
+
+const handlePaymentSuceeded = async (payload: any) => {
+  const payment = payload.data;
+  const supabase = await createAdminClient();
+  console.log(
+    "💳 Payment succeeded:",
+    payment.payment_id,
+    `$${payment.amount / 100}`,
+  );
+
+  const { error } = await supabase.from("payments").insert({
+    payment_id: payment.payment_id,
+    customer_id: payment.customer.customer_id,
+    subscription_id: payment.subscription_id,
+    amount: payment.total_amount,
+    currency: payment.currency,
+    status: payment.status,
+    payment_method: payment.payment_method, // 'card'
+    created_at: payment.created_at || new Date().toISOString(),
+  });
+
+  if (error) throw error;
+
+  // Update subscription with last successful payment
+  if (payment.subscription_id) {
+    await supabase
+      .from("subscriptions")
+      .update({
+        last_payment_at: new Date().toISOString(),
+        status: "active",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("subscription_id", payment.subscription_id);
+  }
+};
+
+const handlePaymentFailed = async (payload: any) => {
+  const supabase = await createAdminClient();
+  const payment = payload.data;
+  console.log("❌ Payment failed:", payment.payment_id);
+
+  await supabase.from("payments").insert({
+    payment_id: payment.payment_id,
+    customer_id: payment.customer?.customer_id || payment.customer_id,
+    subscription_id: payment.subscription_id,
+    amount: payment.total_amount,
+    currency: payment.settlement_currency || "USD",
+    status: "failed",
+    error_message: payment.error_message || payment.failure_reason,
+    created_at: new Date().toISOString(),
+  });
+
+  // Mark subscription as past_due
+  if (payment.subscription_id) {
+    await supabase
+      .from("subscriptions")
+      .update({
+        status: "past_due",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("subscription_id", payment.subscription_id);
+  }
+};
+
+const handleSubscriptionRenewed = async (payload: any) => {
+  const supabase = await createAdminClient();
+  const { data } = payload;
+  console.log("🔄 Subscription renewed:", data.subscription_id);
+
+  const { error } = await supabase
+    .from("subscriptions")
+    .update({
+      status: "active",
+      current_period_start: data.previous_billing_date,
+      current_period_end: data.next_billing_date,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("subscription_id", data.subscription_id);
+
+  if (error) throw error;
+};

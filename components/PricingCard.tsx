@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { Button } from "./ui/button";
+import { getCurrentUser } from "@/utils/actions/auth.actions";
+import { toast } from "sonner";
 
 interface Props {
   id: string;
@@ -11,7 +13,7 @@ interface Props {
   caption: string;
   features: string[];
   highlighted: boolean;
-  productID: string;
+  productID?: string;
 }
 
 export default function PricingCard({
@@ -25,43 +27,47 @@ export default function PricingCard({
 }: Props) {
   const [loading, setLoading] = useState(false);
 
-  const startCheckout = async () => {
+  const checkoutProduct = async (productId: string) => {
+    const currentUser = await getCurrentUser();
     setLoading(true);
     try {
-      const res = await fetch("/api/create-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          product_cart: [{ product_id: productID, quantity: 1 }],
-          allowed_payment_method_types: [
-            "credit",
-            "debit",
-            "apple_pay",
-            "google_pay",
-          ],
-        }),
-      });
+      const response = await fetch(
+        `${window.location.origin}/api/create-checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            product_cart: [
+              {
+                product_id: productId,
+                quantity: 1,
+              },
+            ],
+            customer: {
+              email: currentUser?.email,
+              name: currentUser?.user_metadata.full_name,
+            },
+            return_url: `${window.location.origin}/dashboard`,
+          }),
+        },
+      );
 
-      if (res.redirected) {
-        window.location.assign(res.url);
-        return;
+      if (!response.ok) {
+        setLoading(false);
+        throw new Error("Failed to create checkout session");
       }
 
-      const data = await res.json().catch(() => null as any);
-      if (data?.url) {
-        window.location.assign(data.url);
-        return;
-      }
-
-      throw new Error("No checkout URL returned");
-    } catch (err) {
-      console.error(err);
-      alert("Unable to start checkout. Please try again.");
-    } finally {
+      const { checkout_url } = await response.json();
+      window.location.href = checkout_url;
       setLoading(false);
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setLoading(false);
+      toast.error("Failed to start checkout process");
     }
   };
-
   return (
     <article className="w-full" id={id}>
       <div className="bg-background shadow rounded-lg p-6 lg:p-8">
@@ -75,7 +81,7 @@ export default function PricingCard({
             </div>
             <Button
               className="mt-6 w-full bg-orange-400 lg:w-auto"
-              onClick={startCheckout}
+              onClick={() => checkoutProduct(productID as string, true)}
               disabled={loading}
               aria-busy={loading}
               aria-disabled={loading}
