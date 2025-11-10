@@ -5,11 +5,14 @@ import { generateText } from "ai";
 import { generateSystemPrompt, generateUserPrompt } from "./prompts";
 import { CompanyContext } from "../schema";
 import getUserPersona from "@/utils/actions/companies.actions";
+import { PLAN_LIMITS } from "../features";
+import { getCurrentUser } from "@/utils/actions/auth.actions";
+import { createClient } from "../supabase/server";
+import { canUserGenerate, incrementGenerationCount } from "../payments";
 
 type Return = {
   success: boolean;
   text: string;
-  usage: any;
   finishReason: string;
 };
 
@@ -30,6 +33,14 @@ export default async function generateContent(
     companyProductBenefits: company.key_benefits,
     companyKeyDifferentiator: company.differentiator,
   };
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  const { allowed, reason, limits } = await canUserGenerate(user?.id as string);
+
+  if (!allowed) {
+    throw new Error(`User not allowed to generate content: ${reason}`);
+  }
 
   try {
     const result = await generateText({
@@ -39,10 +50,20 @@ export default async function generateContent(
       temperature: 0.7,
     });
 
+    await incrementGenerationCount(user?.id as string);
+
+    // Get updated limits
+    const updatedLimits = await canUserGenerate(user?.id as string);
+    const log = {
+      plan: updatedLimits.limits.plan,
+      used: updatedLimits.limits.used,
+      limit: updatedLimits.limits.limit,
+      remaining: updatedLimits.limits.remaining,
+    };
+    console.log(log);
     return {
       success: true,
       text: result.text,
-      usage: result.usage,
       finishReason: result.finishReason,
     };
   } catch (error) {
@@ -50,7 +71,6 @@ export default async function generateContent(
     return {
       success: false,
       text: "",
-      usage: 0,
       finishReason: "error",
     };
   }

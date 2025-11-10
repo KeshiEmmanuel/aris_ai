@@ -49,6 +49,9 @@ export default function PricingCard({
               email: currentUser?.email,
               name: currentUser?.user_metadata.full_name,
             },
+            metadata: {
+              user_id: currentUser?.id,
+            },
             return_url: `${window.location.origin}/dashboard`,
           }),
         },

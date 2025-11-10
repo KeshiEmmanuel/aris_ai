@@ -72,12 +72,11 @@ const manageSubscription = async (event: any) => {
 
   const supabase = await createAdminClient();
   // Update or insert subscription in your database
-  const currentUser = await getCurrentUser();
   const { error } = await supabase.from("subscriptions").upsert(
     {
       subscription_id: data.subscription_id,
       customer_id: data.customer.customer_id,
-      user_id: currentUser?.id,
+      user_id: data.metadata?.user_id,
       product_id: data.product_id,
       status: data.status,
       price_cents: data.recurring_pre_tax_amount,
