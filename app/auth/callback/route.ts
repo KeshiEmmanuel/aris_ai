@@ -1,17 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
-import { hasCompany } from "@/utils/actions/companies.actions";
 import { NextResponse } from "next/server";
 export async function GET(request: Request) {
-  const isCompany = await hasCompany();
   const { searchParams, origin } = new URL(request.url);
-  const redirectUrl = isCompany ? "/dashboard" : "/onboarding";
+
   const code = searchParams.get("code");
   // if "next" is in param, use it as the redirect URL
-  let next = searchParams.get("next") ?? redirectUrl;
+  let next = searchParams.get("next") ?? "/success";
 
   if (!next.startsWith("/")) {
     // if "next" is not a relative URL, use the default
-    next = redirectUrl;
+    next = "/success";
   }
 
   if (code) {
