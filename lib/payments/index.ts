@@ -1,7 +1,7 @@
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 export const PLAN_LIMITS = {
   free_tier: 5,
-  pdt_I1kjhHjzuY31V6OyMD0sp: 50, // Replace with your actual product ID
+  pdt_RTwTPFke4ZFFbGBv5fu7R: 50, // Replace with your actual product ID
   pdt_IM53Zh5GY97bf81MYeK3y: 80, // Replace with your actual product ID
 } as const;
 
