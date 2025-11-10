@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { userInfoSchema } from "@/lib/schema";
 import z from "zod";
+import { getCurrentUser } from "./auth.actions";
 
 type UserProfile = z.infer<typeof userInfoSchema>;
 
@@ -79,3 +80,19 @@ export async function updateUserPersona(userPersona: UserProfile) {
 
   return data;
 }
+
+export const hasCompany = async () => {
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  const { data, error } = await supabase
+    .from("user_company")
+    .select()
+    .eq("user_id", user?.id);
+
+  if (error || !data) {
+    return false;
+  }
+
+  return data[0];
+};

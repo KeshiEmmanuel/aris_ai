@@ -55,18 +55,12 @@ const ContentSpace = ({ content, id }: { content: string; id: string }) => {
           a: ({ node, ...props }) => (
             <a className="text-orange-400 hover:underline" {...props} />
           ),
-          code: ({ node, inline, ...props }) =>
-            inline ? (
-              <code
-                className="bg-gray-800 text-orange-300 px-2 py-1 rounded text-sm"
-                {...props}
-              />
-            ) : (
-              <code
-                className="block bg-gray-900 text-gray-200 p-4 rounded-lg overflow-x-auto"
-                {...props}
-              />
-            ),
+          code: ({ node, ...props }) => (
+            <code
+              className="block bg-gray-900 text-gray-200 p-4 rounded-lg overflow-x-auto"
+              {...props}
+            />
+          ),
         }}
       >
         {content}

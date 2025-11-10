@@ -84,7 +84,7 @@ export default function PricingCard({
             </div>
             <Button
               className="mt-6 w-full bg-orange-400 lg:w-auto"
-              onClick={() => checkoutProduct(productID as string, true)}
+              onClick={() => checkoutProduct(productID as string)}
               disabled={loading}
               aria-busy={loading}
               aria-disabled={loading}
