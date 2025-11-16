@@ -6,6 +6,17 @@
 @theme inline {
     --color-background: #0a0a0a;
     --color-foreground: #ededed;
+    @keyframes gradient-shift {
+        0% {
+            background-position: 0% 0%;
+        }
+        50% {
+            background-position: 100% 100%;
+        }
+        100% {
+            background-position: 0% 0%;
+        }
+    }
     --font-sans: var(--font-geist-sans);
     --font-sofia: var(--font-sofia);
     --color-sidebar-ring: var(--sidebar-ring);
@@ -91,8 +102,10 @@
 }
 
 .home-page {
-    @apply bg-gradient-to-b from-orange-500 via-orange-400 to-orange-400 w-full text-background h-screen;
+    @apply bg-gradient-to-b from-orange-500 via-orange-400 to-orange-400 w-full text-background h-screen  bg-[length:200%_200%]
+            animate-[gradient-shift_8s_ease_infinite];
 }
+
 /*.textbox {
   @apply relative border border-white/10
     bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),rgba(255,255,255,0.02)_70%)]
