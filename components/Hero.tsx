@@ -10,19 +10,16 @@ const Hero = () => {
       <div className="py-16 gap-8 font-sans text-center flex flex-col items-center">
         <button className="text-sm flex items-center gap-2">
           <div className="w-2 h-2 bg-green-200 rounded-full animate-pulse" />
-          Built for B2B SaaS Marketer&apos;s only
+          Built for B2B SaaS Startups only
         </button>
-        <div className="flex text-5xl flex-col font-medium items-center">
-          <p className="">Zendt understands SaaS funnels.</p>
-          <p className=""> Thinks Like Your Team.</p>
-          <span className="inline-block text-orange-400">
-            Ships Launch-Ready Content.
-          </span>
+        <div className="flex text-6xl flex-col items-center">
+          <p className="font-sofia">Your SaaS Voice</p>
+          <p className="font-sofia">Automated.</p>
         </div>
-        <p className="text-gray-300">
-          Zendt helps SaaS marketers launch features, grow pipelines, and
-          activate users in minutes without AI tools built for bloggers and
-          agencies.
+        <p className="text-gray-800">
+          AI-powered writing that sounds exactly like you for blogs, landing
+          pages, product updates, and emails. Paste your style, pick your mode,
+          and stay authentic at every touchpoint
         </p>
         <TextArea
           isAuthenticated={false}

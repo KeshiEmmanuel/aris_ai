@@ -83,7 +83,11 @@ const TextArea = ({
         console.log("Generated text:", data.text);
         setGeneratedContent?.(data.text);
         // Handle the generated content here
-        const dataFromDB = await createContent(data.text, mode.value, description);
+        const dataFromDB = await createContent(
+          data.text,
+          mode.value,
+          description,
+        );
         setCurrentId?.(dataFromDB.id);
         setDescription("");
       } else {
@@ -119,11 +123,13 @@ const TextArea = ({
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className={`flex items-center gap-1 overflow-hidden ${
                     mode.text
-                      ? "bg-orange-400 text-background text-sm py-0.5 px-3 rounded-full"
+                      ? ` ${!isAuthenticated ? "text-orange-400 bg-black" : "text-black bg-orange-400"} text-sm py-0.5 px-3 rounded-full`
                       : "bg-transparent"
                   }`}
                 >
-                  <BiSolidZap className="text-black bg-orange-400 w-5 p-1 h-5 rounded-full shrink-0" />
+                  <BiSolidZap
+                    className={`${!isAuthenticated ? "text-orange-400 bg-black" : "text-black bg-orange-400"} w-5 p-1 h-5 rounded-full shrink-0`}
+                  />
                   <AnimatePresence mode="wait">
                     {mode.text && (
                       <motion.span
@@ -177,19 +183,19 @@ const TextArea = ({
       </div>
 
       <div className="mt-5 flex w-full text-black gap-2 justify-center text-[12px]">
-        <button className="bg-orange-400  flex items-center gap-1 py-1 px-3 rounded-2xl">
+        <button className="bg-orange-400 border border-black  flex items-center gap-1 py-1 px-3 rounded-2xl">
           <FaBinoculars />
           Write a landing page
         </button>
-        <button className="bg-orange-400 flex items-center gap-1 py-1 px-3 rounded-2xl">
+        <button className="bg-orange-400 border border-black flex items-center gap-1 py-1 px-3 rounded-2xl">
           <TiFlowParallel />
           Create a product update blog
         </button>
-        <button className="bg-orange-400 flex items-center gap-1 py-1 px-3 rounded-2xl">
+        <button className="bg-orange-400 border border-black flex items-center gap-1 py-1 px-3 rounded-2xl">
           <FaCode />
           Monthly changelog blog post
         </button>
-        <button className="bg-orange-400 flex items-center gap-1 py-1 px-3 rounded-2xl">
+        <button className="bg-orange-400 border border-black flex items-center gap-1 py-1 px-3 rounded-2xl">
           <FaMicrophone />
           Trial user nurture sequence
         </button>

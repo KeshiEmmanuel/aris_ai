@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useState } from "react";
+import {  useState } from "react";
 import TextArea from "./TextArea";
 import ContentSpace from "./ContentSpace";
 import { motion } from "motion/react";
@@ -47,7 +47,7 @@ export default function NewPage() {
                 Start talking with{" "}
                 <span className="text-orange-400">Zendt</span>
               </h1>
-              <p className="text-center text-gray-400">
+              <p className="text-center text-gray-500">
                 Write compelling and engaging content that resonates with your
                 audience.
               </p>

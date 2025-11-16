@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Lobster_Two } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 
@@ -8,9 +8,10 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontSofia = Lobster_Two({
+  variable: "--font-sofia",
   subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground font-sans`}
+        className={`${geistSans.variable} ${fontSofia.variable} antialiased bg-background text-foreground font-sans`}
       >
         {children}
         <Toaster position="top-center" />

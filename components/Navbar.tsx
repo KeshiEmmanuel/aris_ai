@@ -8,9 +8,9 @@ const Navbar = () => {
       <Image src="/logo.svg" width={20} height={20} alt="nav-logo" />
 
       <Link href="/login">
-        <button className="bg-orange-400 px-4 py-1 rounded-full flex items-center gap-1">
+        <button className="bg-orange-400 font-sofia px-4 py-1 rounded-full flex items-center gap-1">
           Sign in
-          <FiArrowUpRight className="bg-white/40 text-lg text-white p-1 rounded-full" />
+          <FiArrowUpRight className="bg-white/30 text-lg text-white p-1 rounded-full" />
         </button>
       </Link>
     </nav>

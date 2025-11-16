@@ -17,7 +17,7 @@ export const pricingPlan = [
     name: "Starter",
     productID: "pdt_I1kjhHjzuY31V6OyMD0sp",
     caption: "Perfect for Solo marketers and small teams",
-    price: 29,
+    price: 19,
     features: [
       "up to 50 content generation per month",
       "All 4 modes",
@@ -30,7 +30,7 @@ export const pricingPlan = [
     id: "growth",
     name: "Growth",
     productID: "pdt_IM53Zh5GY97bf81MYeK3y",
-    price: 79,
+    price: 49,
     caption: "Perfect for mid-sized and growing teams",
     features: [
       "up to 110 content generation per month",
@@ -42,7 +42,6 @@ export const pricingPlan = [
   },
 ];
 
-
 // export type WebhookPayload = {
-  
+
 // }
