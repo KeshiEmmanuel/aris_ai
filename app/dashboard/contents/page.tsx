@@ -1,5 +1,9 @@
+import DeleteMenu from "@/components/DeleteMenu";
 import HistoryCard from "@/components/HistoryCard";
-import { getAllUserContent } from "@/utils/actions/content.action";
+import {
+  deleteContent,
+  getAllUserContent,
+} from "@/utils/actions/content.action";
 
 const ContentHistory = async () => {
   const userContent = await getAllUserContent();
@@ -19,6 +23,7 @@ const ContentHistory = async () => {
               id={content.id}
               content={content.content}
             />
+            <DeleteMenu id={content.id} handleDelete={deleteContent} />
           </div>
         ))}
       </div>

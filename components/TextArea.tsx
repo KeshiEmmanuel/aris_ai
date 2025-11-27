@@ -109,7 +109,7 @@ const TextArea = ({
         <textarea
           onChange={(e) => setDescription(e.target.value)}
           className="pl-10 h-[110px] w-full resize-none border-none outline-none px-2 pt-8"
-          placeholder="Describe your needs and Zendt will answer you"
+          placeholder="Ask Zendt to write a blog post about..."
         />
         <div className="flex items-center justify-between pl-10 pr-4 pb-2">
           <div className="relative flex items-center gap-2">
@@ -182,24 +182,26 @@ const TextArea = ({
         </div>
       </div>
 
-      <div className="mt-5 flex w-full text-black gap-2 justify-center text-[12px]">
-        <button className="bg-orange-400 border border-black  flex items-center gap-1 py-1 px-3 rounded-2xl">
-          <FaBinoculars />
-          Write a landing page
-        </button>
-        <button className="bg-orange-400 border border-black flex items-center gap-1 py-1 px-3 rounded-2xl">
-          <TiFlowParallel />
-          Create a product update blog
-        </button>
-        <button className="bg-orange-400 border border-black flex items-center gap-1 py-1 px-3 rounded-2xl">
-          <FaCode />
-          Monthly changelog blog post
-        </button>
-        <button className="bg-orange-400 border border-black flex items-center gap-1 py-1 px-3 rounded-2xl">
-          <FaMicrophone />
-          Trial user nurture sequence
-        </button>
-      </div>
+      {!isAuthenticated && (
+        <div className="mt-5 flex w-full text-black gap-2 justify-center text-[12px]">
+          <button className="bg-orange-300 border border-black/20  flex items-center gap-1 py-1 px-3 rounded-2xl">
+            <FaBinoculars />
+            Write a landing page
+          </button>
+          <button className="bg-orange-300 border border-black/20 flex items-center gap-1 py-1 px-3 rounded-2xl">
+            <TiFlowParallel />
+            Create a product update blog
+          </button>
+          <button className="bg-orange-300 border border-black/20 flex items-center gap-1 py-1 px-3 rounded-2xl">
+            <FaCode />
+            Monthly changelog blog post
+          </button>
+          <button className="bg-orange-300 border border-black/20 flex items-center gap-1 py-1 px-3 rounded-2xl">
+            <FaMicrophone />
+            Trial user nurture sequence
+          </button>
+        </div>
+      )}
     </section>
   );
 };

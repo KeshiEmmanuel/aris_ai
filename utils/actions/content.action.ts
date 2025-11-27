@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 interface contentProps {
   id: string;
@@ -10,7 +11,7 @@ interface contentProps {
 
 interface getContentProps extends contentProps {
   task: string;
-  created_at?: string
+  created_at?: string;
 }
 
 export async function createContent(
@@ -86,4 +87,11 @@ export async function updateContent(
     throw new Error(error?.message || "Failed to update Content");
 
   return data[0];
+}
+
+export async function deleteContent(id: string): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase.from("user_content").delete().eq("id", id);
+  revalidatePath("/dashboard/history");
+  if (error) throw new Error(error?.message || "Failed to delete Content");
 }
