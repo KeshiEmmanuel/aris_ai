@@ -77,8 +77,7 @@ const TextArea = ({
     try {
       // ✅ Fixed parameter order: description first, then mode
       const data = await generateContent(description, mode.value);
-      console.log(data);
-      console.log(description, mode.value);
+
       if (data?.success) {
         console.log("Generated text:", data.text);
         setGeneratedContent?.(data.text);

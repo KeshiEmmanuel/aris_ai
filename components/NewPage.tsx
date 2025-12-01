@@ -1,6 +1,6 @@
 "use client";
 
-import {  useState } from "react";
+import { useState } from "react";
 import TextArea from "./TextArea";
 import ContentSpace from "./ContentSpace";
 import { motion } from "motion/react";
@@ -12,8 +12,6 @@ export default function NewPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const text = "...";
 
-  console.log(generatedContent);
-  console.log(currentId);
   return (
     <section className="max-w-[800px] w-full h-screen new-page-grid font-sans mx-auto">
       <div className="content-area">

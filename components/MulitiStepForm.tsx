@@ -13,7 +13,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { createUserCompanyPersona } from "@/utils/actions/companies.actions";
+import {
+  createUserCompanyPersona,
+  createUserProfile,
+} from "@/utils/actions/companies.actions";
+import { generateTone } from "@/lib/context/ai";
+import { parseStringfy } from "@/lib/utils";
 
 export const MulitiStepForm = () => {
   const router = useRouter();
@@ -29,6 +34,7 @@ export const MulitiStepForm = () => {
       companyVoiceTone: "",
       companyProductBenefits: [""],
       companyKeyDifferentiator: "",
+      styleGuide: {},
     },
   });
 
@@ -79,7 +85,15 @@ export const MulitiStepForm = () => {
   async function onSubmit(values: z.infer<typeof userInfoSchema>) {
     console.log(values);
     try {
-      await createUserCompanyPersona(values);
+      const companyPersona = await createUserCompanyPersona(values);
+      const generatedTone = await generateTone(companyPersona);
+      const persona = await createUserProfile(
+        companyPersona.id,
+        parseStringfy(generatedTone.object),
+      );
+      console.log(persona);
+      console.log(companyPersona);
+      console.log(generatedTone);
       toast.success("Persona created successfully!");
       router.push("/dashboard");
     } catch (error) {

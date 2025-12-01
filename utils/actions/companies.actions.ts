@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { userInfoSchema } from "@/lib/schema";
 import z from "zod";
 import { getCurrentUser } from "./auth.actions";
+import { generateTone } from "@/lib/context/ai";
+import { parseStringfy } from "@/lib/utils";
 
 type UserProfile = z.infer<typeof userInfoSchema>;
 
@@ -15,25 +17,28 @@ export const createUserCompanyPersona = async (userPersona: UserProfile) => {
 
   const { data, error } = await supabase
     .from("user_company")
-    .insert({
-      user_id: user?.id,
-      company_name: userPersona.companyName,
-      product_description: userPersona.companyProductDescription,
-      industry: userPersona.companyIndustry,
-      target_audience: userPersona.targetAudienceJobTitle,
-      technical_level: userPersona.targetAudienceTechnicalLevel,
-      brand_voice_style: userPersona.companyVoiceTone,
-      brand_voice_samples: userPersona.companyContentTemplate,
-      key_benefits: userPersona.companyProductBenefits,
-      differentiator: userPersona.companyKeyDifferentiator,
-    })
+    .upsert(
+      {
+        user_id: user?.id,
+        company_name: userPersona.companyName,
+        product_description: userPersona.companyProductDescription,
+        industry: userPersona.companyIndustry,
+        target_audience: userPersona.targetAudienceJobTitle,
+        technical_level: userPersona.targetAudienceTechnicalLevel,
+        brand_voice_style: userPersona.companyVoiceTone,
+        brand_voice_samples: userPersona.companyContentTemplate,
+        key_benefits: userPersona.companyProductBenefits,
+        differentiator: userPersona.companyKeyDifferentiator,
+      },
+      { onConflict: "user_id" },
+    )
     .select();
 
   if (error) {
     throw new Error(error.message);
   }
 
-  return data;
+  return data[0];
 };
 
 export default async function getUserPersona() {
@@ -89,6 +94,27 @@ export const hasCompany = async () => {
     .from("user_company")
     .select()
     .eq("user_id", user?.id);
+
+  if (error || !data) {
+    return false;
+  }
+
+  return data[0];
+};
+
+export const createUserProfile = async (
+  companyRowId: string,
+  generatedPersona: any,
+) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("user_company")
+    .update({
+      user_profile: generatedPersona,
+    })
+    .eq("id", companyRowId)
+    .select();
 
   if (error || !data) {
     return false;

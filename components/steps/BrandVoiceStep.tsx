@@ -50,7 +50,7 @@ export default function BrandVoiceStep({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Upload or paste 2-3 examples of your best content
+              Upload or paste 2-3 examples of your best marketing copy
             </FormLabel>
             <div className="space-y-3">
               {[0, 1, 2].map((index) => (

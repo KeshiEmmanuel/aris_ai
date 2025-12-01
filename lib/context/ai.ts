@@ -1,19 +1,62 @@
 "use server";
 
 import { google } from "@ai-sdk/google";
-import { generateText } from "ai";
-import { generateSystemPrompt, generateUserPrompt } from "./prompts";
-import { CompanyContext } from "../schema";
+import { generateObject, generateText } from "ai";
+import { CompanyContext, StyleGuide, styleGuideSchema } from "../schema";
 import getUserPersona from "@/utils/actions/companies.actions";
 import { PLAN_LIMITS } from "../features";
 import { getCurrentUser } from "@/utils/actions/auth.actions";
 import { createClient } from "../supabase/server";
 import { canUserGenerate, incrementGenerationCount } from "../payments";
+import {
+  generateSystemPrompt,
+  generateToneAnalysisPrompt,
+  generateUserPrompt,
+} from "./prompts";
 
 type Return = {
   success: boolean;
   text: string;
   finishReason: string;
+};
+
+type ObjectReturn = {
+  success: boolean;
+  object: StyleGuide | null;
+  finishedReason: string;
+};
+
+export const generateTone = async (newCompany: any): Promise<ObjectReturn> => {
+  const currentCompany: CompanyContext = {
+    companyName: newCompany.company_name,
+    companyProductDescription: newCompany.product_description,
+    companyIndustry: newCompany.industry,
+    targetAudienceJobTitle: newCompany.target_audience,
+    targetAudienceTechnicalLevel: newCompany.technical_level,
+    companyVoiceTone: newCompany.brand_voice_style,
+    companyContentTemplate: newCompany.brand_voice_samples,
+    companyProductBenefits: newCompany.key_benefits,
+    companyKeyDifferentiator: newCompany.differentiator,
+  };
+  try {
+    const result = await generateObject({
+      model: google("gemini-2.0-flash"),
+      schema: styleGuideSchema,
+      prompt: generateToneAnalysisPrompt(currentCompany),
+      temperature: 0.5,
+    });
+    return {
+      success: true,
+      object: result.object,
+      finishedReason: result.finishReason,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      object: null,
+      finishedReason: "error",
+    };
+  }
 };
 
 export default async function generateContent(
@@ -32,8 +75,9 @@ export default async function generateContent(
     companyContentTemplate: company.brand_voice_samples,
     companyProductBenefits: company.key_benefits,
     companyKeyDifferentiator: company.differentiator,
+    styleGuide: company.user_profile,
   };
-  const supabase = await createClient();
+
   const user = await getCurrentUser();
 
   const { allowed, reason, limits } = await canUserGenerate(user?.id as string);
@@ -41,7 +85,7 @@ export default async function generateContent(
   if (!allowed) {
     throw new Error(`User not allowed to generate content: ${reason}`);
   }
-
+  console.log(currentCompany);
   try {
     const result = await generateText({
       model: google("gemini-2.0-flash"),

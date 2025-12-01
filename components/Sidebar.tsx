@@ -22,11 +22,9 @@ const SideBar = () => {
           <IoDiamond className=" text-gray-400" />
         </Link>
 
-        <Link href="/dashboard/logout">
-          <SignOutButton>
-            <FaSignOutAlt className=" text-orange-400" />
-          </SignOutButton>
-        </Link>
+        <SignOutButton>
+          <FaSignOutAlt className=" text-orange-400" />
+        </SignOutButton>
       </div>
     </nav>
   );
