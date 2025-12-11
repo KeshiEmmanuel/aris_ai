@@ -7,6 +7,6 @@ export default async function SuccessPage() {
   if (!checkCompany) {
     return redirect("/onboarding");
   } else {
-    return redirect("/dashboard");
+    return redirect("/new");
   }
 }

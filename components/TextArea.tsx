@@ -15,7 +15,7 @@ import { FaBinoculars, FaCode, FaMicrophone } from "react-icons/fa";
 import { TiFlowParallel } from "react-icons/ti";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
-import generateContent from "@/lib/context/ai";
+// import generateContent from "@/lib/context/ai";
 import { toast } from "sonner";
 import { createContent } from "@/utils/actions/content.action";
 
@@ -74,30 +74,30 @@ const TextArea = ({
     }
 
     setIsLoading?.(true);
-    try {
-      // ✅ Fixed parameter order: description first, then mode
-      const data = await generateContent(description, mode.value);
+    // try {
+    // ✅ Fixed parameter order: description first, then mode
+    // const data = await generateContent(description, mode.value);
 
-      if (data?.success) {
-        console.log("Generated text:", data.text);
-        setGeneratedContent?.(data.text);
-        // Handle the generated content here
-        const dataFromDB = await createContent(
-          data.text,
-          mode.value,
-          description,
-        );
-        setCurrentId?.(dataFromDB.id);
-        setDescription("");
-      } else {
-        console.error("Error:", data.finishReason);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading?.(false);
-      setDescription("");
-    }
+    // if (data?.success) {
+    //   console.log("Generated text:", data.text);
+    //   setGeneratedContent?.(data.text);
+    // Handle the generated content here
+    //     const dataFromDB = await createContent(
+    //       data.text,
+    //       mode.value,
+    //       description,
+    //     );
+    //     setCurrentId?.(dataFromDB.id);
+    //     setDescription("");
+    //   } else {
+    //     console.error("Error:", data.finishReason);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setIsLoading?.(false);
+    //   setDescription("");
+    // }
   }
 
   return (
