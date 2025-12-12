@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
 
-import {
-  Geist,
-  Lobster_Two,
-  Inter,
-  Oi,
-  Instrument_Serif,
-  Geist_Mono,
-  JetBrains_Mono,
-} from "next/font/google";
+import { Geist, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 
@@ -16,13 +8,8 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-serif",
-});
 
-const mono = JetBrains_Mono({
+const mono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
@@ -30,12 +17,6 @@ const mono = JetBrains_Mono({
 const interSans = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const fontSofia = Lobster_Two({
-  variable: "--font-sofia",
-  subsets: ["latin"],
-  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -89,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${serif.variable} ${mono.variable} ${interSans.variable} ${fontSofia.variable} antialiased bg-background text-foreground font-sans`}
+        className={`${geistSans.variable} ${mono.variable} ${interSans.variable} antialiased bg-background text-foreground font-sans`}
       >
         {children}
         <Toaster />

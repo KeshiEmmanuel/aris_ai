@@ -1,5 +1,4 @@
 import DraftPageClient from "@/components/editor/client/DraftPageClient";
-import { createClient } from "@/lib/supabase/server";
 import { getContent } from "@/utils/actions/content.action";
 import { redirect } from "next/navigation";
 

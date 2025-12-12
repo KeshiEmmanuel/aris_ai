@@ -56,12 +56,17 @@ const modes: Mode[] = [
 // This ensures the component expects data from the server page
 interface DashboardClientProps {
   recentDrafts: any[]; // Replace 'any' with your specific Content type definition if you have one
-  userName?: string; // Optional: To make the greeting dynamic
+  userName: string;
+  usageCheck: {
+    allowed: boolean;
+    limits: { plan: string }; // We only strictly need the plan name for the blocker
+  }; // Optional: To make the greeting dynamic
 }
 
 export default function DashboardClient({
   recentDrafts,
-  userName = "KESHI",
+  userName,
+  usageCheck,
 }: DashboardClientProps) {
   const [selectedMode, setSelectedMode] = useState<Mode | null>(null);
 
@@ -191,6 +196,7 @@ export default function DashboardClient({
         mode={selectedMode}
         isOpen={!!selectedMode}
         onClose={handleClose}
+        usageCheck={usageCheck}
       />
     </div>
   );
