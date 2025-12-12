@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Loader2, LucideIcon, ArrowRight } from "lucide-react";
+import { Loader2, LucideIcon, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
