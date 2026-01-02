@@ -1,7 +1,7 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "./lib/supabase/middleware/updateSession";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // This function refreshes the auth token and manages cookies
   return await updateSession(request);
 }
