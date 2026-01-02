@@ -26,6 +26,7 @@ import FloatingToolbar from "./FloatingToobar";
 import { AutoSavePlugin } from "./AutoSavePlugin";
 import { Terminal, Cpu } from "lucide-react";
 
+// --- 1. MARKDOWN SYNC PLUGIN (Connects content prop to Editor) ---
 function MarkdownSyncPlugin({
   markdown,
   isStreaming,
@@ -39,36 +40,25 @@ function MarkdownSyncPlugin({
   const loadedDraftId = useRef<string | null>(null);
 
   useEffect(() => {
-    // 1. Reset lock if the user switches to a completely new draft
     if (loadedDraftId.current !== draftId) {
       loadedDraftId.current = null;
     }
 
-    // 2. Decide if we should sync
-    // Sync if:
-    // A. We are actively streaming (AI is typing)
-    // B. We haven't loaded this draft ID yet AND we actually have content to load
     const isNewDraftLoad =
       loadedDraftId.current !== draftId && markdown.length > 0;
     const shouldSync = isStreaming || isNewDraftLoad;
 
     if (shouldSync) {
       editor.update(() => {
-        // Prevent empty overwrite if we are just starting
         if (!markdown && isStreaming) return;
-
         $convertFromMarkdownString(markdown, TRANSFORMERS);
 
-        // Keep cursor at the end only while streaming
         if (isStreaming) {
           const root = $getRoot();
           root.selectEnd();
         }
       });
 
-      // 3. Mark this draft as "Loaded" so we don't overwrite user edits later
-      // We only lock it if we are NOT streaming (i.e., this was a DB fetch)
-      // or if the stream just finished.
       if (!isStreaming && markdown.length > 0) {
         loadedDraftId.current = draftId;
       }
@@ -78,7 +68,7 @@ function MarkdownSyncPlugin({
   return null;
 }
 
-// --- ZENDT EDITOR THEME ---
+// --- 2. THEME ---
 const zendtTheme = {
   paragraph: "text-neutral-300 text-[16px] leading-7 mb-4 font-sans",
   heading: {
@@ -108,6 +98,7 @@ interface NotionEditorProps {
   isStreaming?: boolean;
 }
 
+// --- 3. MAIN EDITOR COMPONENT ---
 export default function NotionEditor({
   draftId,
   content,
@@ -131,36 +122,39 @@ export default function NotionEditor({
   };
 
   return (
-    <div className="min-h-screen bg-black text-white pt-6 pb-40 px-6 selection:bg-indigo-500 selection:text-white">
-      <div className="max-w-[800px] mx-auto">
-        {/* TOP META BAR */}
-        <div className="flex items-center justify-between mb-12 border-b border-neutral-800 pb-4">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
-              <Terminal size={12} />
-              <span>Session_ID: {draftId.slice(0, 8)}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-[10px] font-mono text-green-500 uppercase tracking-widest">
-            <div
-              className={`w-1.5 h-1.5 bg-green-500 rounded-full ${
-                isStreaming ? "animate-ping" : ""
-              }`}
-            />
-            {isStreaming ? "Receiving_Stream..." : "Editor_Ready"}
+    // WRAPPED IN COMPOSER (Fixes Context Error)
+    <LexicalComposer initialConfig={initialConfig}>
+      <div className="min-h-screen bg-black text-white pb-40 px-6 selection:bg-indigo-500 selection:text-white">
+        {/* FIXED TOOLBAR (Full Width, Outside Centered Container) */}
+        <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-6 pointer-events-none">
+          <div className="pointer-events-auto">
+            <FixedToolbar />
           </div>
         </div>
 
-        <LexicalComposer initialConfig={initialConfig}>
-          {/* TOOLBAR WRAPPER */}
-          <div className="sticky top-6 z-50 mb-8">
-            <FixedToolbar />
+        {/* CONTENT CONTAINER (Centered) */}
+        <div className="max-w-[800px] mx-auto mt-24">
+          {/* META BAR */}
+          <div className="flex items-center justify-between mb-12 border-b border-neutral-800 pb-4">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                <Terminal size={12} />
+                <span>Session_ID: {draftId.slice(0, 8)}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-[10px] font-mono text-green-500 uppercase tracking-widest">
+              <div
+                className={`w-1.5 h-1.5 bg-green-500 rounded-full ${
+                  isStreaming ? "animate-ping" : ""
+                }`}
+              />
+              {isStreaming ? "Receiving_Stream..." : "Editor_Ready"}
+            </div>
           </div>
 
           <AutoSavePlugin id={draftId} />
 
           <div className="relative min-h-[500px] border-l border-neutral-900 pl-8 md:pl-12">
-            {/* BACKGROUND DECORATION */}
             <div className="absolute top-0 left-0 bottom-0 w-[1px] bg-gradient-to-b from-indigo-500/50 via-neutral-800 to-transparent" />
 
             <RichTextPlugin
@@ -184,13 +178,14 @@ export default function NotionEditor({
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
           <FloatingToolbar />
 
+          {/* HERE IS WHERE CONTENT IS USED */}
           <MarkdownSyncPlugin
             markdown={content}
             isStreaming={isStreaming}
             draftId={draftId}
           />
-        </LexicalComposer>
+        </div>
       </div>
-    </div>
+    </LexicalComposer>
   );
 }

@@ -46,6 +46,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dodopayments": "^2.8.0",
+    "groq-sdk": "^0.37.0",
     "lexical": "^0.39.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.560.0",
