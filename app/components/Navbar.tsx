@@ -21,9 +21,9 @@ export default function Navbar() {
     <nav className="fixed top-0 w-full max-w-360 left-0 right-0 pt-5 mx-auto">
       <div className="flex justify-between">
         <Image src="/zendt.png" alt="Zendt logo" width={30} height={30} />
-        <p>
-          <RealTimeClock />
-        </p>
+        <div className="flex items-center gap-1 text-gray-700 text-sm">
+          <RealTimeClock /> New York, USA
+        </div>
         <button>Menu</button>
       </div>
     </nav>
