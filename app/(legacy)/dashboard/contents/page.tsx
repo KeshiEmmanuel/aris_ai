@@ -13,15 +13,15 @@ const ContentHistory = async () => {
       <div className="flex flex-col gap-4">
         {userContent.map((content) => (
           <div
-            className="w-full border-gray-500 border-1 px-10 py-5 hover:bg-gray-600/10 transition-colors duration-200 rounded-lg flex items-center justify-between"
+            className="w-full border-gray-500 border px-10 py-5 hover:bg-gray-600/10 transition-colors duration-200 rounded-lg flex items-center justify-between"
             key={content.id}
           >
             <HistoryCard
               key={content.id}
-              task={content.task}
               created_at={content.created_at}
               id={content.id}
-              content={content.content}
+
+              // content={content.content}
             />
             <DeleteMenu id={content.id} handleDelete={deleteContent} />
           </div>

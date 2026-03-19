@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { getCurrentUser } from "./auth.actions";
 
 interface contentProps {
   id: string;
@@ -10,14 +11,16 @@ interface contentProps {
 }
 
 interface getContentProps extends contentProps {
-  task: string;
-  created_at?: string;
+  id: string;
+  mode: string;
+  input_context: string;
+  created_at: string;
+  content: string;
 }
 
 export async function createContent(
-  content: string,
+  input_context: any,
   mode: string,
-  task: string,
 ): Promise<contentProps> {
   const supabase = await createClient();
   const {
@@ -27,9 +30,8 @@ export async function createContent(
     .from("user_content")
     .insert({
       user_id: user?.id,
-      used_mode: mode,
-      content: content,
-      task: task,
+      mode: mode,
+      input_context: input_context,
     })
     .select();
 
@@ -57,10 +59,8 @@ export async function getContent(id: string): Promise<getContentProps> {
   return data[0];
 }
 export async function getAllUserContent(): Promise<getContentProps[]> {
+  const user = await getCurrentUser();
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
   const { data, error } = await supabase
     .from("user_content")
     .select()

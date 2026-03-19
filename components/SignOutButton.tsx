@@ -17,11 +17,7 @@ const SignOutButton = ({ children }: Props) => {
     router.refresh();
     router.push("/");
   };
-  return (
-    <Button className="button" onClick={handleSignOut}>
-      {children}
-    </Button>
-  );
+  return <button onClick={handleSignOut}>{children}</button>;
 };
 
 export default SignOutButton;

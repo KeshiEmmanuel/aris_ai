@@ -8,8 +8,9 @@ export const PLAN_LIMITS = {
 function getPlanName(productId: string): string {
   if (productId === "free_tier") return "Free";
   if (PLAN_LIMITS[productId as keyof typeof PLAN_LIMITS] === 50)
-    return "Starter";
-  if (PLAN_LIMITS[productId as keyof typeof PLAN_LIMITS] === 80) return "Pro";
+    return "Operator";
+  if (PLAN_LIMITS[productId as keyof typeof PLAN_LIMITS] === 80)
+    return "Growth";
   return "Unknown";
 }
 

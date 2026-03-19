@@ -4,8 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 import { userInfoSchema } from "@/lib/schema";
 import z from "zod";
 import { getCurrentUser } from "./auth.actions";
-import { generateTone } from "@/lib/context/ai";
-import { parseStringfy } from "@/lib/utils";
 
 type UserProfile = z.infer<typeof userInfoSchema>;
 
@@ -17,21 +15,19 @@ export const createUserCompanyPersona = async (userPersona: UserProfile) => {
 
   const { data, error } = await supabase
     .from("user_company")
-    .upsert(
-      {
-        user_id: user?.id,
-        company_name: userPersona.companyName,
-        product_description: userPersona.companyProductDescription,
-        industry: userPersona.companyIndustry,
-        target_audience: userPersona.targetAudienceJobTitle,
-        technical_level: userPersona.targetAudienceTechnicalLevel,
-        brand_voice_style: userPersona.companyVoiceTone,
-        brand_voice_samples: userPersona.companyContentTemplate,
-        key_benefits: userPersona.companyProductBenefits,
-        differentiator: userPersona.companyKeyDifferentiator,
-      },
-      { onConflict: "user_id" },
-    )
+    .insert({
+      user_id: user?.id,
+      brand_name: userPersona.brand_name,
+      user_term: userPersona.user_term,
+      product_term: userPersona.product_term,
+      enemy: userPersona.enemy,
+      core_benefit: userPersona.core_benefit,
+      banned_words: userPersona.banned_words,
+      sample_update: userPersona.sample_update,
+      sample_blog: userPersona.sample_blog,
+      sample_email: userPersona.sample_email,
+      sample_landing: userPersona.sample_landing,
+    })
     .select();
 
   if (error) {
@@ -67,15 +63,16 @@ export async function updateUserPersona(userPersona: UserProfile) {
   const { data, error } = await supabase
     .from("user_company")
     .update({
-      company_name: userPersona.companyName,
-      product_description: userPersona.companyProductDescription,
-      industry: userPersona.companyIndustry,
-      target_audience: userPersona.targetAudienceJobTitle,
-      technical_level: userPersona.targetAudienceTechnicalLevel,
-      brand_voice_style: userPersona.companyVoiceTone,
-      brand_voice_samples: userPersona.companyContentTemplate,
-      key_benefits: userPersona.companyProductBenefits,
-      differentiator: userPersona.companyKeyDifferentiator,
+      brand_name: userPersona.brand_name,
+      user_term: userPersona.user_term,
+      product_term: userPersona.product_term,
+      enemy: userPersona.enemy,
+      core_benefit: userPersona.core_benefit,
+      banned_words: userPersona.banned_words,
+      sample_update: userPersona.sample_update,
+      sample_blog: userPersona.sample_blog,
+      sample_email: userPersona.sample_email,
+      sample_landing: userPersona.sample_landing,
     })
     .eq("user_id", user?.id);
 

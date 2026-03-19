@@ -7,11 +7,11 @@ type ContentPageProps = {
 
 const ContentPage = async ({ params }: ContentPageProps) => {
   const { id } = await params;
-  const content = await getContent(id);
+  // const content = await getContent(id);
   // console.log(content);
   return (
     <div>
-      <TextEditor content={content.content} contentTitle={content.task} id={content.id} />
+      {/*<TextEditor content={content.content} contentTitle={content.task} id={content.id} />*/}
     </div>
   );
 };

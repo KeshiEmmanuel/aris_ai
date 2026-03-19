@@ -2,12 +2,16 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
+html {
+    scroll-behavior: smooth;
+}
 @theme inline {
     --color-background: #0a0a0a;
     --color-foreground: #ededed;
-
+    --font-serif: var(--font-serif);
+    --font-mono: var(--font-mono);
     --font-sans: var(--font-geist-sans);
+    --font-inter: var(--font-inter);
     --font-sofia: var(--font-sofia);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -91,7 +95,7 @@
 }
 
 .home-page {
-    @apply bg-linear-to-b from-white to-orange-200 w-full text-background h-screen;
+    @apply bg-white w-full text-background h-screen;
 }
 
 /*.textbox {

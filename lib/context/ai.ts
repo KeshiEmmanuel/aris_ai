@@ -1,121 +1,156 @@
 "use server";
 
 import { google } from "@ai-sdk/google";
-import { generateObject, generateText } from "ai";
-import { CompanyContext, StyleGuide, styleGuideSchema } from "../schema";
+import { generateObject, generateText, streamText } from "ai";
+import { CompanyContext } from "../schema";
 import getUserPersona from "@/utils/actions/companies.actions";
-import { PLAN_LIMITS } from "../features";
 import { getCurrentUser } from "@/utils/actions/auth.actions";
 import { createClient } from "../supabase/server";
+import { createStreamableValue } from "@ai-sdk/rsc";
+import { updateContent } from "@/utils/actions/content.action";
+import { createBrandVoicePrompt } from "./prompts";
+
+// Import payment logic
 import { canUserGenerate, incrementGenerationCount } from "../payments";
-import {
-  generateSystemPrompt,
-  generateToneAnalysisPrompt,
-  generateUserPrompt,
-} from "./prompts";
 
-type Return = {
-  success: boolean;
-  text: string;
-  finishReason: string;
-};
+export async function generateDraftAction(draftId: string) {
+  const supabase = await createClient();
+  const stream = createStreamableValue("");
 
-type ObjectReturn = {
-  success: boolean;
-  object: StyleGuide | null;
-  finishedReason: string;
-};
+  (async () => {
+    // 1. Fetch Draft & Brand Context securely on the server
+    const { data: draft } = await supabase
+      .from("user_content")
+      .select("*")
+      .eq("id", draftId)
+      .single();
 
-export const generateTone = async (newCompany: any): Promise<ObjectReturn> => {
-  const currentCompany: CompanyContext = {
-    companyName: newCompany.company_name,
-    companyProductDescription: newCompany.product_description,
-    companyIndustry: newCompany.industry,
-    targetAudienceJobTitle: newCompany.target_audience,
-    targetAudienceTechnicalLevel: newCompany.technical_level,
-    companyVoiceTone: newCompany.brand_voice_style,
-    companyContentTemplate: newCompany.brand_voice_samples,
-    companyProductBenefits: newCompany.key_benefits,
-    companyKeyDifferentiator: newCompany.differentiator,
-  };
-  try {
-    const result = await generateObject({
-      model: google("gemini-2.0-flash"),
-      schema: styleGuideSchema,
-      prompt: generateToneAnalysisPrompt(currentCompany),
-      temperature: 0.5,
-    });
-    return {
-      success: true,
-      object: result.object,
-      finishedReason: result.finishReason,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      object: null,
-      finishedReason: "error",
-    };
-  }
-};
+    const { data: brand } = await supabase
+      .from("user_company")
+      .select("*")
+      .eq("user_id", draft.user_id)
+      .single();
 
-export default async function generateContent(
-  description: string,
-  mode: string,
-): Promise<Return> {
-  const company = await getUserPersona();
+    if (!draft || !brand) {
+      stream.done();
+      return;
+    }
 
-  const currentCompany: CompanyContext = {
-    companyName: company.company_name,
-    companyProductDescription: company.product_description,
-    companyIndustry: company.industry,
-    targetAudienceJobTitle: company.target_audience,
-    targetAudienceTechnicalLevel: company.technical_level,
-    companyVoiceTone: company.brand_voice_style,
-    companyContentTemplate: company.brand_voice_samples,
-    companyProductBenefits: company.key_benefits,
-    companyKeyDifferentiator: company.differentiator,
-    styleGuide: company.user_profile,
-  };
+    // --- PAYMENT CHECK START ---
+    // Check if the user (owner of the draft) has credits remaining
+    const { allowed, reason } = await canUserGenerate(draft.user_id);
 
-  const user = await getCurrentUser();
+    if (!allowed) {
+      // Stream the error message to the client and close the stream
+      stream.error(reason || "Usage limit reached. Please upgrade your plan.");
+      stream.done();
+      return;
+    }
+    // --- PAYMENT CHECK END ---
 
-  const { allowed, reason, limits } = await canUserGenerate(user?.id as string);
+    // 2. Build the System Prompt (The Brain)
+    const systemPrompt = createBrandVoicePrompt(brand, draft.mode);
 
-  if (!allowed) {
-    throw new Error(`User not allowed to generate content: ${reason}`);
-  }
-  console.log(currentCompany);
-  try {
-    const result = await generateText({
-      model: google("gemini-2.0-flash"),
-      system: generateSystemPrompt(currentCompany, mode),
-      prompt: generateUserPrompt(description, mode),
+    // 3. Build the User Prompt (The Task)
+    const userPrompt = `
+          TASK: Write a ${draft.mode.replace("_", " ")}.
+          INPUTS: ${JSON.stringify(draft.input_context)}
+
+          CRITICAL OUTPUT RULES:
+          1. Write EXACTLY ONE version. Do not provide options.
+          2. Do NOT include conversational filler (e.g., "Here is the draft").
+          3. Start directly with the content (e.g., The Subject Line for emails, or the H1 for blogs).
+          4. Stop immediately after the sign-off/conclusion.
+
+          INSTRUCTION: Write the content now. Adhere strictly to the banned words list.
+        `;
+
+    // 4. Stream the text
+    const { textStream } = streamText({
+      model: google("gemini-2.5-flash-lite"),
+      system: systemPrompt,
+      prompt: userPrompt,
       temperature: 0.7,
+      onFinish: async ({ text }) => {
+        // Save content
+        await updateContent(draftId, text);
+
+        // --- PAYMENT INCREMENT START ---
+        // Only increment if the generation successfully finishes
+        await incrementGenerationCount(draft.user_id);
+        // --- PAYMENT INCREMENT END ---
+      },
     });
 
-    await incrementGenerationCount(user?.id as string);
+    // 5. Pipe the chunks to the client
+    for await (const delta of textStream) {
+      stream.update(delta);
+    }
 
-    // Get updated limits
-    const updatedLimits = await canUserGenerate(user?.id as string);
-    const log = {
-      plan: updatedLimits.limits.plan,
-      used: updatedLimits.limits.used,
-      limit: updatedLimits.limits.limit,
-      remaining: updatedLimits.limits.remaining,
-    };
-    console.log(log);
-    return {
-      success: true,
-      text: result.text,
-      finishReason: result.finishReason,
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      success: false,
-      text: "",
-      finishReason: "error",
-    };
-  }
+    stream.done();
+  })();
+
+  return { output: stream.value };
+}
+
+export async function refineTextAction(selection: string, prompt: string) {
+  const stream = createStreamableValue("");
+  const supabase = await createClient();
+
+  (async () => {
+    // 1. Get Current User for Usage Tracking
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      stream.error("Unauthorized");
+      stream.done();
+      return;
+    }
+
+    // --- PAYMENT CHECK START ---
+    const { allowed, reason } = await canUserGenerate(user.id);
+
+    if (!allowed) {
+      stream.error(reason || "Usage limit reached. Please upgrade your plan.");
+      stream.done();
+      return;
+    }
+    // --- PAYMENT CHECK END ---
+
+    const { textStream } = streamText({
+      model: google("gemini-2.5-flash-lite"),
+      system:
+        "You are an expert AI editor for B2B professionals. You rewrite text to be clear, concise, and impactful while maintaining a professional tone. \n\n" +
+        "Rules:\n" +
+        "1. Output ONLY the rewritten text. No conversational filler (e.g., 'Here is the text').\n" +
+        "2. Preserve existing Markdown formatting (bold, italics, lists) unless asked to remove it.\n" +
+        "3. Do not change the underlying meaning unless the instruction explicitly requires it.",
+      prompt: `
+        <original_text>
+        ${selection}
+        </original_text>
+
+        <instruction>
+        ${prompt}
+        </instruction>
+
+        Rewrite the <original_text> following the <instruction>.
+      `,
+      onFinish: async () => {
+        // --- PAYMENT INCREMENT START ---
+        await incrementGenerationCount(user.id);
+        // --- PAYMENT INCREMENT END ---
+      },
+    });
+
+    for await (const delta of textStream) {
+      stream.update(delta);
+    }
+
+    stream.done();
+  })();
+
+  return { output: stream.value };
 }
