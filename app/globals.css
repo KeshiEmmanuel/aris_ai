@@ -14,5 +14,4 @@ body {
 @theme {
     --font-satoshi: var(--font-satoshi);
     --font-grotesk: var(--font-grotesk);
-    --font-aktura: var(--font-aktura);
 }

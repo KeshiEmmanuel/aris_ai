@@ -31,17 +31,6 @@ const CabinetGrotesk = localFont({
   display: "swap",
   variable: "--font-grotesk",
 });
-const Aktura = localFont({
-  src: [
-    {
-      path: "./fonts/Aktura-Regular.woff",
-      weight: "400",
-      style: "normal",
-    },
-  ],
-  display: "swap",
-  variable: "--font-aktura",
-});
 export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
@@ -93,7 +82,7 @@ export default function RootLayout({
   return (
     <html>
       <body
-        className={`${CabinetGrotesk.variable} ${satoshi.variable} ${Aktura.variable} antialiased bg-background text-foreground font-satoshi`}
+        className={`${CabinetGrotesk.variable} ${satoshi.variable} antialiased bg-background text-foreground font-satoshi`}
       >
         <main>
           <Navbar />
