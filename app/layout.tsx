@@ -1,33 +1,56 @@
-import type { Metadata } from "next";
-
-import { Geist, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "sonner";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import Navbar from "./components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const satoshi = localFont({
+  src: [
+    {
+      path: "./fonts/Satoshi-Regular.woff",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Satoshi-Bold.woff",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-satoshi",
 });
 
-const mono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+const CabinetGrotesk = localFont({
+  src: [
+    {
+      path: "./fonts/CabinetGrotesk-Regular.woff",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-grotesk",
 });
-
-const interSans = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const Aktura = localFont({
+  src: [
+    {
+      path: "./fonts/Aktura-Regular.woff",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-aktura",
 });
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
-  title: "Zendt | AI writer for B2B SaaS",
+  title: "ZENDT",
   description:
     "Stop prompting ChatGPT. Zendt generates product updates, changelogs, and landing pages that actually sound like your brand. No robot voice.",
   keywords: [
-    "AI writer",
-    "B2B SaaS",
+    "best design agency for architecture studios",
+    "",
     "Changelog generator",
     "Product updates",
     "Brand voice AI",
@@ -68,12 +91,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html>
       <body
-        className={`${geistSans.variable} ${mono.variable} ${interSans.variable} antialiased bg-background text-foreground font-sans`}
+        className={`${CabinetGrotesk.variable} ${satoshi.variable} ${Aktura.variable} antialiased bg-background text-foreground font-satoshi`}
       >
-        {children}
-        <Toaster />
+        <main>
+          <Navbar />
+          {children}
+        </main>
       </body>
     </html>
   );
