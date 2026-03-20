@@ -12,6 +12,12 @@ body {
     overflow: hidden;
 }
 
+.container {
+    transform: translateY(100%);
+}
+.cta {
+    transform: translateY(100%);
+}
 @theme {
     --font-satoshi: var(--font-satoshi);
     --font-grotesk: var(--font-grotesk);
