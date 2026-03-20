@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 
 const satoshi = localFont({
   src: [
@@ -85,7 +85,7 @@ export default function RootLayout({
         className={`${CabinetGrotesk.variable} ${satoshi.variable} antialiased bg-background text-foreground font-satoshi`}
       >
         <main>
-          <Navbar />
+          {/*<Navbar />*/}
           {children}
         </main>
       </body>

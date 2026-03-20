@@ -9,6 +9,7 @@ html {
 body {
     background-color: #ece6e8;
     color: #010203;
+    overflow: hidden;
 }
 
 @theme {
