@@ -3,6 +3,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { Phone } from "lucide-react";
+import { Suspense } from "react";
+
 import Navbar from "./Navbar";
 import Image from "next/image";
 
@@ -28,7 +30,7 @@ export default function MainPage() {
           "<",
         )
         .fromTo(
-          ".container",
+          ".hero-section",
           { yPercent: 100 },
           {
             yPercent: 0,
@@ -54,7 +56,7 @@ export default function MainPage() {
   const ctaButtonOnEnter = contextSafe(() => {
     gsap.to(".cta-btn", {
       gap: "5px",
-      paddingRight: "28px",
+      paddingRight: "45px",
       duration: 0.3,
       ease: "power3.out",
       overwrite: "auto",
@@ -100,7 +102,7 @@ export default function MainPage() {
   });
 
   return (
-    <div ref={homePageRef}>
+    <div ref={homePageRef} className="h-full">
       <div className="absolute top-0 z-30 loader overflow-hidden bg-black w-screen h-screen flex items-center justify-center">
         <Image
           src="/zendt_white.png"
@@ -110,56 +112,46 @@ export default function MainPage() {
           alt="logo-foreground"
         />
       </div>
-      <div className="container mx-auto w-screen h-screen">
-        <Navbar />
-        <section className="pt-10 h-[90%]">
-          <div className="flex flex-col p-10 justify-between h-full">
-            <div className="flex justify-between">
-              {/*<h1 className="text-9xl font-satoshi font-bold">
-          Beautiful <br /> is Not Enough.
-        </h1>*/}
-              <div>{/*<h2>Works</h2>*/}</div>
-            </div>
-            <div className="flex items-start justify-between font-sans">
-              <p className="w-[700px] font-grotesk">
-                <strong className="font-bold underline text-2xl">ZENDT</strong>{" "}
-                is a web development studio for architecture firms and interior
-                design studios that want more than a good-looking site. We build
-                with <span className="uppercase font-bold text-2xl">one </span>{" "}
-                question in mind: what does this website need to do for your
-                business? Then we go make that happen from the first interaction
-                to the first qualified lead it sends your way. We&apos;re not a
-                vendor. We&apos;re the people you call when the work is serious.
-                Currently booking our first founding clients at a reduced rate
-                in exchange for full transparency on results.
-              </p>
-
-              <div className="flex cta items-center justify-center p-8 bg-[#EBE8EB]">
+      <div className="hero-section">
+        <div className="container mx-auto w-full h-[100vh]">
+          <div className="flex flex-col items-center h-full pb-5">
+            <h1 className="text-[16rem] tracking-tight font-grotesk font-bold">
+              Zendt
+            </h1>
+            <p className="text-lg w-[460px] text-center opacity-80">
+              Building High converting and performing websites for extraordinary
+              architectures firms and interior studios.
+            </p>
+            <a
+              href="https://cal.com/chidera-keshi-qy98f0/30min"
+              target="_blank"
+            >
+              <div className="flex cta items-center justify-center p-8">
                 <button
                   onMouseEnter={ctaButtonOnEnter}
                   onMouseLeave={ctaButtonOnLeave}
                   className="
-            font-satoshi
-            cta-btn
-            px-6 py-2.5
-            text-[17px] font-medium text-white
-            rounded-[12px]
-            bg-gradient-to-b from-[#3a3a3a] to-[#111111]
-            border border-[#050505]
-            flex items-center
-            shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
-            hover:from-[#454545] hover:to-[#1a1a1a]
-            transition-all duration-200 ease-in-out
-            active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
-          "
+                         font-satoshi
+                         cta-btn
+                         px-10 py-5
+                         text-[17px] font-medium text-white
+                         rounded-full
+                         bg-gradient-to-b from-[#3a3a3a] to-[#111111]
+                         border border-[#050505]
+                         flex items-center
+                         shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
+                         hover:from-[#454545] hover:to-[#1a1a1a]
+                         transition-all duration-200 ease-in-out
+                         active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
+                       "
                 >
-                  Book 15-min intro call
+                  Start a Project
                   <Phone className="cta-icon opacity-0" size={16} />
                 </button>
               </div>
-            </div>
+            </a>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Archivo } from "next/font/google";
 import localFont from "next/font/local";
 // import Navbar from "./components/Navbar";
 
@@ -35,15 +36,15 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
   title: "ZENDT",
-  description:
-    "Stop prompting ChatGPT. Zendt generates product updates, changelogs, and landing pages that actually sound like your brand. No robot voice.",
+  description: "Helping clients build Architecture firms on the web",
   keywords: [
+    "zendt",
     "best design agency for architecture studios",
-    "",
-    "Changelog generator",
-    "Product updates",
-    "Brand voice AI",
-    "Copywriting tool",
+    "design agency for architecture",
+    "architecture design agency",
+    "best design agency for architecture",
+    "design architecture",
+    "creative architecture",
   ],
   authors: [{ name: "Keshi", url: "https://x.com/_rudosurebec" }],
   creator: "Keshi",
@@ -51,26 +52,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/", // You can change this to relative now, or keep absolute.
-    title: "Zendt | The AI Writer for B2B SaaS",
+    title:
+      "Zendt | Your Design Partner Specifically for Architecture firms & Interior Design studios",
     description:
-      "Generate B2B content that sounds like you, not a robot. Try it for free.",
+      "Translate your physcial work into digital presence that is meant for you only.",
     siteName: "Zendt",
-    images: [
-      {
-        url: "/og-image.jpg", // This will now correctly resolve to https://zendt.site/og-image.jpg
-        width: 1200,
-        height: 630,
-        alt: "Zendt Interface Preview",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Zendt | The AI Writer for B2B SaaS",
-    description:
-      "Stop sounding generic. AI content trained on your brand voice.",
-    images: ["/og-image.jpg"],
-    creator: "@_rudosurebec", // Updated from "@yourhandle" to match your author URL
   },
 };
 

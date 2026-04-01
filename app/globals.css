@@ -7,9 +7,9 @@ html {
 }
 
 body {
-    background-color: #ece6e8;
+    background-color: #fefffe;
     color: #010203;
-    overflow: hidden;
+    overflow: visible;
 }
 
 @theme {
