@@ -157,9 +157,18 @@ export default function MainPage() {
               </a>
             </div>
           </div>
-          {/*<div className="hero_second_column">
-            <div className="w-full h-150 bg-gray-300"></div>
-          </div>*/}
+          <div className="hero_second_column h-150 pb-20">
+            <div className="w-full h-full">
+              <iframe
+                src="https://player.vimeo.com/video/1179586091?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&muted=1&background=1"
+                className="w-full h-full object-cover"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="agency-showcase"
+              ></iframe>
+            </div>
+          </div>
         </div>
       </div>
     </div>
