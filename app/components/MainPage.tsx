@@ -56,14 +56,14 @@ export default function MainPage() {
   const ctaButtonOnEnter = contextSafe(() => {
     gsap.to(".cta-btn", {
       gap: "5px",
-      paddingRight: "45px",
+      paddingRight: "50px",
       duration: 0.3,
       ease: "power3.out",
       overwrite: "auto",
     });
 
     gsap.to(".cta-icon", {
-      opacity: 1,
+      display: "block",
       duration: 0.3,
       ease: "power3.out",
       overwrite: "auto",
@@ -85,7 +85,7 @@ export default function MainPage() {
   const ctaButtonOnLeave = contextSafe(() => {
     // 1. Button collapse
     gsap.to(".cta-btn", {
-      gap: "0px",
+      gap: "",
       paddingRight: "", // Setting to "" removes the inline style, reverting to your CSS file
       duration: 0.2,
       ease: "power4.out",
@@ -94,7 +94,7 @@ export default function MainPage() {
 
     // 2. Icon fade out
     gsap.to(".cta-icon", {
-      opacity: 0,
+      display: "none",
       duration: 0.2,
       ease: "power4.out",
       overwrite: "auto",
@@ -103,7 +103,7 @@ export default function MainPage() {
 
   return (
     <div ref={homePageRef} className="h-full">
-      <div className="absolute top-0 z-30 loader overflow-hidden bg-black w-screen h-screen flex items-center justify-center">
+      <div className="fixed top-0 z-30 loader overflow-hidden bg-black w-screen h-screen flex items-center justify-center">
         <Image
           src="/zendt_white.png"
           className="loader-logo"
@@ -114,43 +114,52 @@ export default function MainPage() {
       </div>
       <div className="hero-section">
         <div className="container mx-auto w-full h-[100vh]">
-          <div className="flex flex-col items-center h-full pb-5">
-            <h1 className="text-[16rem] tracking-tight font-grotesk font-bold">
-              Zendt
-            </h1>
-            <p className="text-lg w-[460px] text-center opacity-80">
-              Building High converting and performing websites for extraordinary
-              architectures firms and interior studios.
-            </p>
-            <a
-              href="https://cal.com/chidera-keshi-qy98f0/30min"
-              target="_blank"
-            >
-              <div className="flex cta items-center justify-center p-8">
-                <button
-                  onMouseEnter={ctaButtonOnEnter}
-                  onMouseLeave={ctaButtonOnLeave}
-                  className="
-                         font-satoshi
-                         cta-btn
-                         px-10 py-5
-                         text-[17px] font-medium text-white
-                         rounded-full
-                         bg-gradient-to-b from-[#3a3a3a] to-[#111111]
-                         border border-[#050505]
-                         flex items-center
-                         shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
-                         hover:from-[#454545] hover:to-[#1a1a1a]
-                         transition-all duration-200 ease-in-out
-                         active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
-                       "
-                >
-                  Start a Project
-                  <Phone className="cta-icon opacity-0" size={16} />
-                </button>
-              </div>
-            </a>
+          <div className="hero_first_column">
+            <div className="flex flex-col items-center h-full pb-5">
+              <h1 className="text-[16rem] tracking-tight font-grotesk font-bold">
+                Zendt
+              </h1>
+              <p className="text-lg w-[460px] text-center opacity-80">
+                Building High converting and performing websites for
+                extraordinary architectures firms and interior studios.
+              </p>
+              <a
+                href="https://cal.com/chidera-keshi-qy98f0/30min"
+                target="_blank"
+              >
+                <div className="flex cta items-center p-8 relative">
+                  <button
+                    onMouseEnter={ctaButtonOnEnter}
+                    onMouseLeave={ctaButtonOnLeave}
+                    className="
+                           font-satoshi
+                           relative
+                           cta-btn
+                           px-10 py-5
+                           text-[17px] font-medium text-white
+                           rounded-full
+                           bg-gradient-to-b from-[#3a3a3a] to-[#111111]
+                           border border-[#050505]
+                           flex items-center justify-center
+                           shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
+                           hover:from-[#454545] hover:to-[#1a1a1a]
+                           transition-all duration-200 ease-in-out
+                           active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
+                         "
+                  >
+                    Start a Project{" "}
+                    <Phone
+                      className="cta-icon absolute right-6 hidden mr-0.5"
+                      size={16}
+                    />
+                  </button>
+                </div>
+              </a>
+            </div>
           </div>
+          {/*<div className="hero_second_column">
+            <div className="w-full h-150 bg-gray-300"></div>
+          </div>*/}
         </div>
       </div>
     </div>

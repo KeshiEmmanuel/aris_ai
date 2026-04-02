@@ -35,7 +35,7 @@ const CabinetGrotesk = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
-  title: "ZENDT",
+  title: "ZENDT | The Design Agency for Architecture",
   description: "Helping clients build Architecture firms on the web",
   keywords: [
     "zendt",
