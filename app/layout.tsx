@@ -35,16 +35,17 @@ const CabinetGrotesk = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
-  title: "ZENDT | The Design Agency for Architecture",
-  description: "Helping clients build Architecture firms on the web",
+  title: "ZENDT | The Design Agency for Extraordinary Businesses",
+  description:
+    "Helping clients build high converting digital presence on the web",
   keywords: [
     "zendt",
-    "best design agency for architecture studios",
+    "best design agency for businesses",
     "design agency for architecture",
-    "architecture design agency",
-    "best design agency for architecture",
-    "design architecture",
-    "creative architecture",
+    "local Business design agency",
+    "best design agency for local businesses",
+    "design business",
+    "creative business",
   ],
   authors: [{ name: "Keshi", url: "https://x.com/_rudosurebec" }],
   creator: "Keshi",
@@ -52,8 +53,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/", // You can change this to relative now, or keep absolute.
-    title:
-      "Zendt | Your Design Partner Specifically for Architecture firms & Interior Design studios",
+    title: "Zendt | Your Design Partner Specifically for local tradesmen",
     description:
       "Translate your physcial work into digital presence that is meant for you only.",
     siteName: "Zendt",

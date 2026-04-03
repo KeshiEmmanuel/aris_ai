@@ -113,7 +113,7 @@ export default function MainPage() {
         />
       </div>
       <div className="hero-section">
-        <div className="container mx-auto w-full h-[100vh]">
+        <div className="container mx-auto w-full h-screen">
           <div className="hero_first_column">
             <div className="flex flex-col items-center h-full pb-5">
               <h1 className="text-[16rem] tracking-tight font-grotesk font-bold">
@@ -121,7 +121,7 @@ export default function MainPage() {
               </h1>
               <p className="text-lg w-[460px] text-center opacity-80">
                 Building High converting and performing websites for
-                extraordinary architectures firms and interior studios.
+                extraordinary businesses.
               </p>
               <a
                 href="https://cal.com/chidera-keshi-qy98f0/30min"
@@ -157,7 +157,7 @@ export default function MainPage() {
               </a>
             </div>
           </div>
-          <div className="hero_second_column h-150 pb-20">
+          <div className="hero_second_column h-screen pb-20">
             <div className="w-full h-full">
               <iframe
                 src="https://player.vimeo.com/video/1179586091?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&muted=1&background=1"
