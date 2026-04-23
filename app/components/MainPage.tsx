@@ -1,11 +1,9 @@
 "use client";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Phone } from "lucide-react";
-import { Suspense } from "react";
 
-import Navbar from "./Navbar";
 import Image from "next/image";
 
 export default function MainPage() {
@@ -114,9 +112,9 @@ export default function MainPage() {
       </div>
       <div className="hero-section">
         <div className="container mx-auto w-full h-screen">
-          <div className="hero_first_column">
+          <div className="hero_first_column pt-10">
             <div className="flex flex-col items-center h-full pb-5">
-              <h1 className="text-[16rem] tracking-tight font-grotesk font-bold">
+              <h1 className="text-[16rem] leading-tight  font-grotesk font-bold">
                 Zendt
               </h1>
               <p className="text-lg w-[460px] text-center opacity-80">
@@ -138,7 +136,7 @@ export default function MainPage() {
                            px-10 py-5
                            text-[17px] font-medium text-white
                            rounded-full
-                           bg-gradient-to-b from-[#3a3a3a] to-[#111111]
+                           bg-linear-to-b from-[#3a3a3a] to-[#111111]
                            border border-[#050505]
                            flex items-center justify-center
                            shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
@@ -147,7 +145,7 @@ export default function MainPage() {
                            active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
                          "
                   >
-                    Start a Project{" "}
+                    Book a call
                     <Phone
                       className="cta-icon absolute right-6 hidden mr-0.5"
                       size={16}
@@ -162,13 +160,25 @@ export default function MainPage() {
               <iframe
                 src="https://player.vimeo.com/video/1179586091?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&muted=1&background=1"
                 className="w-full h-full object-cover"
-                frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 title="agency-showcase"
               ></iframe>
             </div>
           </div>
+
+          <footer className="flex items-center justify-center pb-10  w-full">
+            <div>
+              Zendt is a design studio ran by{" "}
+              <a
+                className="italic font-bold hover:underline"
+                href="https://x.com/_rudosurebec"
+                target="_blank"
+              >
+                Rudo
+              </a>
+            </div>
+          </footer>
         </div>
       </div>
     </div>

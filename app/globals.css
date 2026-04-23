@@ -3,20 +3,20 @@
 
 @custom-variant dark (&:is(.dark *));
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    background-color: #fefffe;
-    color: #010203;
-    overflow: visible;
+  background-color: #fefffe;
+  color: #010203;
+  overflow: visible;
 }
 
 @theme {
-    --font-satoshi: var(--font-satoshi);
-    --font-grotesk: var(--font-grotesk);
+  --font-satoshi: var(--font-satoshi);
+  --font-grotesk: var(--font-grotesk);
 }
 
 ::-webkit-scrollbar {
-    visibility: hidden;
+  visibility: hidden;
 }

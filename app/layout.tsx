@@ -1,8 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
 import localFont from "next/font/local";
-// import Navbar from "./components/Navbar";
 
 const satoshi = localFont({
   src: [
@@ -35,14 +33,14 @@ const CabinetGrotesk = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
-  title: "ZENDT | The Design Agency for Extraordinary Businesses",
+  title: "ZENDT | The Design Partner for Extraordinary Businesses",
   description:
     "Helping clients build high converting digital presence on the web",
   keywords: [
     "zendt",
-    "best design agency for businesses",
-    "design agency for architecture",
-    "local Business design agency",
+    "law firm SEO agent",
+    "design agency for businesses",
+    "local Business design agency NYC",
     "best design agency for local businesses",
     "design business",
     "creative business",
@@ -53,7 +51,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/", // You can change this to relative now, or keep absolute.
-    title: "Zendt | Your Design Partner Specifically for local tradesmen",
+    title: "Zendt | Your Creative Design Partner",
     description:
       "Translate your physcial work into digital presence that is meant for you only.",
     siteName: "Zendt",
