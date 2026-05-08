@@ -149,10 +149,14 @@ export default function MainPage() {
             </h1>
           </div>
           <div>
-            <button
-              onMouseEnter={ctaButtonOnEnter}
-              onMouseLeave={ctaButtonOnLeave}
-              className="
+            <a
+              href="https://cal.com/chidera-keshi-qy98f0/30min"
+              target="_blank"
+            >
+              <button
+                onMouseEnter={ctaButtonOnEnter}
+                onMouseLeave={ctaButtonOnLeave}
+                className="
                            font-satoshi
                            relative
                            cta-btn
@@ -167,13 +171,14 @@ export default function MainPage() {
                            transition-all duration-200 ease-in-out
                            active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
                          "
-            >
-              Book a call
-              <Phone
-                className="cta-icon absolute right-6 hidden mr-0.5"
-                size={16}
-              />
-            </button>
+              >
+                Book a call
+                <Phone
+                  className="cta-icon absolute right-6 hidden mr-0.5"
+                  size={16}
+                />
+              </button>
+            </a>
           </div>
         </div>
         <div className="watermark">
