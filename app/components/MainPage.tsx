@@ -5,6 +5,12 @@ import { useRef, useState } from "react";
 import { Phone } from "lucide-react";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { PRESETS } from "@/app/components/HeroGradient";
+
+const HeroGradient = dynamic(() => import("@/app/components/HeroGradient"), {
+  ssr: false,
+});
 
 export default function MainPage() {
   const homePageRef = useRef(null);
@@ -100,7 +106,10 @@ export default function MainPage() {
   });
 
   return (
-    <div ref={homePageRef} className="h-full">
+    <div
+      ref={homePageRef}
+      className="h-screen font-satoshi tracking-tighter relative"
+    >
       <div className="fixed top-0 z-30 loader overflow-hidden bg-black w-screen h-screen flex items-center justify-center">
         <Image
           src="/zendt_white.png"
@@ -110,23 +119,75 @@ export default function MainPage() {
           alt="logo-foreground"
         />
       </div>
-      <div className="hero-section">
-        <div className="container mx-auto w-full h-screen">
-          <div className="hero_first_column pt-10">
-            <div className="flex flex-col items-center h-full pb-5">
-              <h1 className="text-[16rem] leading-tight  font-grotesk font-bold">
-                Zendt
-              </h1>
-              <p className="text-lg w-[460px] text-center opacity-80">
-                Building High converting and performing websites for
-                extraordinary businesses.
-              </p>
-              <a
-                href="https://cal.com/chidera-keshi-qy98f0/30min"
-                target="_blank"
-              >
-                <div className="flex cta items-center p-8 relative">
-                  <button
+      <HeroGradient
+        {...PRESETS.softGrid}
+        style={{ position: "absolute", inset: 0 }}
+      />
+      // Deep ocean blues
+      <HeroGradient
+        {...PRESETS.ocean}
+        style={{ position: "absolute", inset: 0 }}
+      />
+      <div className="flex h-full flex-col justify-between relative z-10">
+        <div className="navbar flex p-2 justify-between">
+          <ul className="uppercase flex items-center gap-2">
+            <li>
+              <h1 className="font-semibold">Projects</h1>
+            </li>
+            <li>
+              <a className="text-sm">Obrien Architects</a>
+            </li>
+            <li>
+              <a className="text-sm">Maquoekta Research</a>
+            </li>
+          </ul>
+          <div className="headline">
+            <h1 className="text-3xl max-w-[550px]">
+              We build high converting landing pages for solo founders and
+              Startups in{" "}
+              <span className="font-semibold underline"> 5 days</span>
+            </h1>
+          </div>
+          <div>
+            <button
+              onMouseEnter={ctaButtonOnEnter}
+              onMouseLeave={ctaButtonOnLeave}
+              className="
+                           font-satoshi
+                           relative
+                           cta-btn
+                           px-8  py-3
+                           text-[17px] font-medium text-white
+                           rounded-full
+                           bg-linear-to-b from-[#3a3a3a] to-[#111111]
+                           border border-[#050505]
+                           flex items-center justify-center
+                           shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
+                           hover:from-[#454545] hover:to-[#1a1a1a]
+                           transition-all duration-200 ease-in-out
+                           active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
+                         "
+            >
+              Book a call
+              <Phone
+                className="cta-icon absolute right-6 hidden mr-0.5"
+                size={16}
+              />
+            </button>
+          </div>
+        </div>
+        <div className="watermark">
+          <h1 className="text-[14rem] font-medium mix-blend-exclusion">
+            Zendt
+          </h1>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+{
+  /* <button
                     onMouseEnter={ctaButtonOnEnter}
                     onMouseLeave={ctaButtonOnLeave}
                     className="
@@ -150,37 +211,10 @@ export default function MainPage() {
                       className="cta-icon absolute right-6 hidden mr-0.5"
                       size={16}
                     />
-                  </button>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="hero_second_column h-screen pb-20">
-            <div className="w-full h-full">
-              <iframe
-                src="https://player.vimeo.com/video/1179586091?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&muted=1&background=1"
-                className="w-full h-full object-cover"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                title="agency-showcase"
-              ></iframe>
-            </div>
-          </div>
-
-          <footer className="flex items-center justify-center pb-10  w-full">
-            <div>
-              Zendt is a design studio ran by{" "}
-              <a
-                className="italic font-bold hover:underline"
-                href="https://x.com/_rudosurebec"
-                target="_blank"
-              >
-                Rudo
-              </a>
-            </div>
-          </footer>
-        </div>
-      </div>
-    </div>
-  );
+                  </button>*/
 }
+
+//      <a
+//   href="https://cal.com/chidera-keshi-qy98f0/30min"
+//   target="_blank"
+// ></a>

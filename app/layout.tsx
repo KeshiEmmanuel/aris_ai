@@ -66,7 +66,7 @@ export default function RootLayout({
   return (
     <html>
       <body
-        className={`${CabinetGrotesk.variable} ${satoshi.variable} antialiased bg-background text-foreground font-satoshi`}
+        className={`${CabinetGrotesk.variable} ${satoshi.variable} antialiased bg-background text-foreground`}
       >
         <main>
           {/*<Navbar />*/}

@@ -7,16 +7,20 @@ html {
 }
 
 body {
-  background-color: #fefffe;
+  background-color: #fafffd;
   color: #010203;
   overflow: visible;
 }
 
 @theme {
   --font-satoshi: var(--font-satoshi);
-  --font-grotesk: var(--font-grotesk);
+  --font-sans: var(--font-grotesk);
 }
 
+.font-primary {
+  font-family: var(--font-sans);
+  letter-spacing: -2%;
+}
 ::-webkit-scrollbar {
-  visibility: hidden;
+  width: 0px;
 }
