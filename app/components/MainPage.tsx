@@ -1,7 +1,7 @@
 "use client";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Phone } from "lucide-react";
 
 import Image from "next/image";
@@ -43,7 +43,6 @@ export default function MainPage() {
           },
           "-=1",
         )
-
         .from(
           ".cta",
           {
@@ -57,6 +56,7 @@ export default function MainPage() {
     },
     { scope: homePageRef },
   );
+
   const ctaButtonOnEnter = contextSafe(() => {
     gsap.to(".cta-btn", {
       gap: "5px",
@@ -72,6 +72,7 @@ export default function MainPage() {
       ease: "power3.out",
       overwrite: "auto",
     });
+
     gsap.fromTo(
       ".cta-icon",
       { rotation: 0 },
@@ -87,16 +88,14 @@ export default function MainPage() {
   });
 
   const ctaButtonOnLeave = contextSafe(() => {
-    // 1. Button collapse
     gsap.to(".cta-btn", {
       gap: "",
-      paddingRight: "", // Setting to "" removes the inline style, reverting to your CSS file
+      paddingRight: "",
       duration: 0.2,
       ease: "power4.out",
-      overwrite: "auto", // Prevents conflict with onEnter
+      overwrite: "auto",
     });
 
-    // 2. Icon fade out
     gsap.to(".cta-icon", {
       display: "none",
       duration: 0.2,
@@ -108,8 +107,9 @@ export default function MainPage() {
   return (
     <div
       ref={homePageRef}
-      className="h-screen font-satoshi tracking-tighter relative"
+      className="h-screen font-satoshi tracking-tighter relative overflow-hidden"
     >
+      {/* Loader */}
       <div className="fixed top-0 z-30 loader overflow-hidden bg-black w-screen h-screen flex items-center justify-center">
         <Image
           src="/zendt_white.png"
@@ -119,36 +119,42 @@ export default function MainPage() {
           alt="logo-foreground"
         />
       </div>
-      <HeroGradient
+
+      {/* Gradients */}
+      {/* <HeroGradient
         {...PRESETS.softGrid}
-        style={{ position: "absolute", inset: 0 }}
-      />
-      // Deep ocean blues
+        style={{ position: "absolute", height: "100vh" }}
+      /> */}
       <HeroGradient
         {...PRESETS.ocean}
-        style={{ position: "absolute", inset: 0 }}
+        style={{ position: "absolute", height: "100vh" }}
       />
-      <div className="flex h-full flex-col justify-between relative z-10">
-        <div className="navbar flex p-2 justify-between">
-          <ul className="uppercase flex items-center gap-2">
+
+      {/* Main content */}
+      <div className="flex h-full flex-col justify-between relative z-10 min-h-0">
+        {/* Navbar */}
+        <div className="navbar flex flex-col gap-4 p-4 lg:flex-row lg:items-start lg:justify-between lg:gap-6 lg:p-6">
+          <ul className="uppercase flex items-center gap-2 flex-shrink-0">
             <li>
               <h1 className="font-semibold">Projects</h1>
             </li>
             <li>
-              <a className="text-sm">Obrien Architects</a>
+              <a className="lg:text-sm text-xs">Obrien Architects</a>
             </li>
             <li>
-              <a className="text-sm">Maquoekta Research</a>
+              <a className="lg:text-sm text-xs">Maquoekta Research</a>
             </li>
           </ul>
-          <div className="headline">
-            <h1 className="text-3xl max-w-[550px]">
-              We build high converting landing pages for solo founders and
-              Startups in{" "}
-              <span className="font-semibold underline"> 5 days</span>
+
+          <div className="headline w-full lg:max-w-[550px]">
+            <h1 className="text-xl max-w-[540px] sm:text-2xl lg:text-3xl">
+              We build high converting websites for serious businesses and
+              companies{" "}
+              <span className="font-semibold underline">in 14 days</span>
             </h1>
           </div>
-          <div>
+
+          <div className="flex-shrink-0">
             <a
               href="https://cal.com/chidera-keshi-qy98f0/30min"
               target="_blank"
@@ -157,20 +163,20 @@ export default function MainPage() {
                 onMouseEnter={ctaButtonOnEnter}
                 onMouseLeave={ctaButtonOnLeave}
                 className="
-                           font-satoshi
-                           relative
-                           cta-btn
-                           px-8  py-3
-                           text-[17px] font-medium text-white
-                           rounded-full
-                           bg-linear-to-b from-[#3a3a3a] to-[#111111]
-                           border border-[#050505]
-                           flex items-center justify-center
-                           shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
-                           hover:from-[#454545] hover:to-[#1a1a1a]
-                           transition-all duration-200 ease-in-out
-                           active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
-                         "
+                  font-satoshi
+                  relative
+                  cta-btn
+                  px-8 py-3
+                  text-[17px] font-medium text-white
+                  rounded-full
+                  bg-linear-to-b from-[#3a3a3a] to-[#111111]
+                  border border-[#050505]
+                  flex items-center justify-center
+                  shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
+                  hover:from-[#454545] hover:to-[#1a1a1a]
+                  transition-all duration-200 ease-in-out
+                  active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
+                "
               >
                 Book a call
                 <Phone
@@ -181,8 +187,10 @@ export default function MainPage() {
             </a>
           </div>
         </div>
-        <div className="watermark">
-          <h1 className="text-[14rem] font-medium mix-blend-exclusion">
+
+        {/* Watermark */}
+        <div className="watermark overflow-hidden">
+          <h1 className="md:text-[14rem] text-white  text-7xl font-bold mix-blend-exclusion">
             Zendt
           </h1>
         </div>
@@ -190,36 +198,3 @@ export default function MainPage() {
     </div>
   );
 }
-
-{
-  /* <button
-                    onMouseEnter={ctaButtonOnEnter}
-                    onMouseLeave={ctaButtonOnLeave}
-                    className="
-                           font-satoshi
-                           relative
-                           cta-btn
-                           px-10 py-5
-                           text-[17px] font-medium text-white
-                           rounded-full
-                           bg-linear-to-b from-[#3a3a3a] to-[#111111]
-                           border border-[#050505]
-                           flex items-center justify-center
-                           shadow-[0_4px_6px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.25)]
-                           hover:from-[#454545] hover:to-[#1a1a1a]
-                           transition-all duration-200 ease-in-out
-                           active:scale-95 active:shadow-[0_1px_2px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]
-                         "
-                  >
-                    Book a call
-                    <Phone
-                      className="cta-icon absolute right-6 hidden mr-0.5"
-                      size={16}
-                    />
-                  </button>*/
-}
-
-//      <a
-//   href="https://cal.com/chidera-keshi-qy98f0/30min"
-//   target="_blank"
-// ></a>

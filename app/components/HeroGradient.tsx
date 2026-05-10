@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-// ─── Noise (used for surface chop on top of Gerstner waves) ─────────────────
 const NOISE_GLSL = `
 vec3 mod289v3(vec3 x){return x-floor(x*(1./289.))*289.;}
 vec4 mod289v4(vec4 x){return x-floor(x*(1./289.))*289.;}
@@ -52,9 +51,6 @@ float snoise(vec3 v){
   return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
 }`;
 
-// ─── Vertex: Gerstner waves ──────────────────────────────────────────────────
-// Gerstner (trochoidal) waves produce peaked crests and broad troughs —
-// the characteristic silhouette of real ocean waves.
 const vertexShader = `
 ${NOISE_GLSL}
 #define PI 3.14159265358979
@@ -66,18 +62,15 @@ uniform float uFrequency;
 varying float vHeight;
 varying vec3  vNormal;
 
-// Single Gerstner wave contribution
-// dir: normalised 2-D travel direction
-// wavelength, amplitude, steepness (Q): shape controls
 vec3 gerstner(vec2 pos, vec2 dir, float wavelength, float amplitude, float steepness, float t) {
   float k  = 2.0 * PI / wavelength;
   float c  = sqrt(9.81 / k);
   float f  = k * (dot(dir, pos) - c * t);
   float Q  = steepness;
   return vec3(
-    Q * amplitude * dir.x * cos(f),   // x displacement
-    Q * amplitude * dir.y * cos(f),   // y displacement
-    amplitude * sin(f)                 // z (height)
+    Q * amplitude * dir.x * cos(f),
+    Q * amplitude * dir.y * cos(f),
+    amplitude * sin(f)
   );
 }
 
@@ -87,26 +80,22 @@ void main() {
   float frq = uFrequency;
   vec2  pos = position.xy;
 
-  // ── 4 Gerstner waves at slightly different angles ─────────────────────────
   vec3 w1 = gerstner(pos, normalize(vec2( 0.00,  1.00)), 2.8/frq, amp*0.42, 0.55, t);
   vec3 w2 = gerstner(pos, normalize(vec2( 0.25,  1.00)), 1.7/frq, amp*0.28, 0.45, t*1.1);
   vec3 w3 = gerstner(pos, normalize(vec2(-0.20,  1.00)), 1.1/frq, amp*0.18, 0.40, t*0.9);
   vec3 w4 = gerstner(pos, normalize(vec2( 0.10,  1.00)), 0.7/frq, amp*0.10, 0.35, t*1.3);
 
-  // ── High-frequency noise chop on top ─────────────────────────────────────
   float chop = snoise(vec3(pos * frq * 2.2, t * 0.6)) * amp * 0.12;
 
   vec3 displaced = position + w1 + w2 + w3 + w4 + vec3(0.0, 0.0, chop);
   vHeight = displaced.z;
 
-  // Approximate normal from finite differences (for future lighting)
   vNormal = normalize(vec3(-w1.z - w2.z - w3.z, -w1.z - w2.z, 1.0));
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(displaced, 1.0);
 }
 `;
 
-// ─── Fragment: map height → 5 colour gradient ───────────────────────────────
 const fragmentShader = `
 precision highp float;
 uniform vec3  uColors[5];
@@ -114,7 +103,6 @@ uniform float uAmount;
 varying float vHeight;
 
 void main() {
-  // Map height range [-amp, +amp] → [0, 1]
   float n = clamp(vHeight / (uAmount * 0.9) * 0.5 + 0.5, 0.0, 1.0);
   float s = n * 4.0;
   int   i = int(floor(s));
@@ -128,10 +116,9 @@ void main() {
 }
 `;
 
-// ─── Presets ─────────────────────────────────────────────────────────────────
 export const PRESETS = {
   softGrid: {
-    colors: ["#DDE8E0", "#EAE4F0", "#F5F0E8", "#E4EDF5", "#F0EBE4"] as [
+    colors: ["#000000", "#0d0d0d", "#111111", "#161616", "#1a1a1a"] as [
       string,
       string,
       string,
@@ -143,7 +130,7 @@ export const PRESETS = {
     frequency: 1.4,
   },
   ocean: {
-    colors: ["#1a3a4a", "#1e5f74", "#4ba3c3", "#a8d8ea", "#f0f8ff"] as [
+    colors: ["#000000", "#0a0a0a", "#141414", "#1f1f1f", "#2a2a2a"] as [
       string,
       string,
       string,
@@ -156,7 +143,6 @@ export const PRESETS = {
   },
 } satisfies Record<string, WebGLGradientProps>;
 
-// ─── Types ───────────────────────────────────────────────────────────────────
 export interface WebGLGradientProps {
   colors?: [string, string, string, string, string];
   amount?: number;
@@ -180,7 +166,6 @@ function hexToVec3(hex: string): THREE.Vector3 {
   return new THREE.Vector3(c.r, c.g, c.b);
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
 export default function HeroGradient({
   colors = PRESETS.softGrid.colors,
   amount = PRESETS.softGrid.amount,
@@ -199,6 +184,7 @@ export default function HeroGradient({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(el.clientWidth, el.clientHeight);
     renderer.setClearColor(0xffffff, 1);
+
     el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -209,7 +195,6 @@ export default function HeroGradient({
       200,
     );
 
-    // Sea-level side view: camera just above the surface, looking toward horizon
     camera.position.set(0, -1.8, 0.55);
     camera.lookAt(0, 4.0, 0);
 
@@ -221,7 +206,6 @@ export default function HeroGradient({
       uColors: { value: colors.map(hexToVec3) },
     };
 
-    // Large high-res plane — extends far toward horizon so no edge is visible
     const mesh = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 30, 300, 300),
       new THREE.ShaderMaterial({
