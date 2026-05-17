@@ -1,61 +1,120 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Inter, Geist } from "next/font/google";
 
-const satoshi = localFont({
-  src: [
-    {
-      path: "./fonts/Satoshi-Regular.woff",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Satoshi-Bold.woff",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+// ─── Inter ────────────────────────────────────────────────────────────────────
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
-  variable: "--font-satoshi",
+  weight: ["400", "500", "600"],
 });
 
-const CabinetGrotesk = localFont({
-  src: [
-    {
-      path: "./fonts/CabinetGrotesk-Regular.woff",
-      weight: "400",
-      style: "normal",
-    },
-  ],
+// ─── Geist ────────────────────────────────────────────────────────────────────
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
   display: "swap",
-  variable: "--font-grotesk",
+  weight: ["400", "500", "700"],
 });
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
-  title: "ZENDT | The Design Partner for Extraordinary Businesses",
+  title: {
+    default: "Zendt Studio | Web Design for B2B Service Companies",
+    template: "%s | Zendt Studio",
+  },
+
   description:
-    "Helping clients build high converting digital presence on the web",
+    "Zendt builds high-converting websites for B2B service companies — recruitment agencies, consultancies, logistics firms, and financial advisors. Delivered in 14 days.",
+
   keywords: [
+    "web design for recruitment agencies",
+    "website redesign for consulting firms",
+    "web design for logistics companies",
+    "web design for financial advisory firms",
+    "web design for IT managed service providers",
+    "web design for staffing companies",
+    "web design for professional services firms",
+    "B2B service company website design",
+
+    "web design studio 14 day delivery",
+    "fast website design for businesses",
+    "quick website redesign B2B",
+
+    "B2B web design studio Canada",
+    "web design agency for recruitment companies Toronto",
+    "professional services website design Vancouver",
+    "website redesign for consultants Canada",
+
+    "B2B web design agency Dubai",
+    "website design for companies in UAE",
+    "web design studio Abu Dhabi B2B",
+
+    "B2B web design Australia",
+    "web design agency for service companies Sydney",
+    "website redesign Melbourne B2B",
+
+    "hire web design studio for B2B company",
+    "website that converts B2B leads",
+    "B2B website conversion design",
+    "web studio for service businesses",
     "zendt",
-    "law firm SEO agent",
-    "design agency for businesses",
-    "local Business design agency NYC",
-    "best design agency for local businesses",
-    "design business",
-    "creative business",
+    "zendt studio",
   ],
-  authors: [{ name: "Keshi", url: "https://x.com/_rudosurebec" }],
-  creator: "Keshi",
+
+  authors: [{ name: "Zendt Studio", url: "https://zendt.site" }],
+  creator: "Zendt Studio",
+  publisher: "Zendt Studio",
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "/", // You can change this to relative now, or keep absolute.
-    title: "Zendt | Your Creative Design Partner",
+    url: "https://zendt.site",
+    siteName: "Zendt Studio",
+    title: "Zendt Studio | Web Design for B2B Service Companies",
     description:
-      "Translate your physcial work into digital presence that is meant for you only.",
-    siteName: "Zendt",
+      "High-converting websites for recruitment agencies, consultancies, logistics firms, and financial advisors. Built and delivered in 14 days.",
+    images: [
+      {
+        url: "/og-image.png", // 1200×630px — add to /public
+        width: 1200,
+        height: 630,
+        alt: "Zendt Studio — Web Design for B2B Service Companies",
+      },
+    ],
   },
+
+  twitter: {
+    card: "summary_large_image",
+    site: "@zendtstudio", // update when you have the handle
+    creator: "@zendtstudio",
+    title: "Zendt Studio | Web Design for B2B Service Companies",
+    description:
+      "High-converting websites for B2B service companies. Delivered in 14 days.",
+    images: ["/og-image.png"],
+  },
+
+  alternates: {
+    canonical: "https://zendt.site",
+  },
+
+  // ── Verification (add when you connect Google Search Console) ─────────────
+  // verification: {
+  //   google: "YOUR_GOOGLE_VERIFICATION_CODE",
+  // },
 };
 
 export default function RootLayout({
@@ -64,14 +123,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${CabinetGrotesk.variable} ${satoshi.variable} antialiased bg-background text-foreground`}
+        className={`
+          ${inter.variable}
+          ${geist.variable}
+          antialiased
+        `}
       >
-        <main>
-          {/*<Navbar />*/}
-          {children}
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );

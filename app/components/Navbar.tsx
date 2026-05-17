@@ -1,25 +1,29 @@
-import Image from "next/image";
-import RealTimeClock from "./RealTimeClock";
-import { Menu } from "lucide-react";
+import React from "react";
 
-export default function Navbar() {
+const Navbar = () => {
   return (
-    <nav className="w-full max-w-360 py-5 mx-auto">
-      <div className="flex justify-between">
-        <Image
-          src="/zendt.png"
-          alt="Zendt logo"
-          className="rounded"
-          width={30}
-          height={30}
-        />
-        <div className="flex items-center gap-1 text-gray-700 text-sm">
-          <RealTimeClock /> New York, USA
-        </div>
-        <button>
-          <Menu size={24} />
+    <nav className="fixed px-4 py-2 rounded-full  font-primary top-5 left-0 right-0  w-full max-w-[700px] z-10 bg-white  mx-auto">
+      <div className=" flex items-center justify-between">
+        <aside className="flex items-center gap-2">
+          <img src={"/zendt_new_logo.jpeg"} className="w-6 h-6 rounded" />
+        </aside>
+        <ul className="flex items-center justify-between gap-2">
+          <li>
+            <a>Work.</a>
+          </li>
+          <li>
+            <a>Process.</a>
+          </li>
+          <li>
+            <a>Studio.</a>
+          </li>
+        </ul>
+        <button className="bg-black text-white px-4 py-2 text-sm  rounded-full">
+          Let's Talk
         </button>
       </div>
     </nav>
   );
-}
+};
+
+export default Navbar;
