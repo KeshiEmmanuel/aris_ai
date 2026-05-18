@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
+import FlipButton from "./FilpButton";
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 function MainFooter() {
   const mainFooterRef = useRef(null);
@@ -55,10 +56,7 @@ function MainFooter() {
         </h1>
         <aside className="flex flex-col gap-10">
           <div className="flex justify-between">
-            <button className="text-6xl bg-[#c8ff00] px-10 py-6 rounded-full text-black flex items-center gap-4">
-              Let's make sure it holds up
-              <FiArrowUpRight className="bg-black text-white p-2 rounded-full" />
-            </button>
+            <FlipButton />
 
             <p className="max-w-[480px] main-footer-subtitle">
               Book a 20-minute call. No pitch. No deck. Just a conversation
