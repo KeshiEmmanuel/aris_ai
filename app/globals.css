@@ -6,6 +6,12 @@ html {
   scroll-behavior: smooth;
 }
 
+.card-2 {
+  box-shadow:
+    0 0 0 1px #e5e7eb,
+    0 2px 3px rgba(3, 7, 18, 0.2);
+}
+
 body {
   background-color: #fafffd;
   color: #010203;
@@ -27,7 +33,7 @@ body {
 
 .font-primary {
   font-family: var(--font-geist);
-  letter-spacing: -2%;
+  letter-spacing: -3%;
 }
 ::-webkit-scrollbar {
   width: 0px;

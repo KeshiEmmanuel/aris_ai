@@ -10,12 +10,11 @@ const inter = Inter({
   weight: ["400", "500", "600"],
 });
 
-// ─── Geist ────────────────────────────────────────────────────────────────────
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
   display: "swap",
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -131,7 +130,7 @@ export default function RootLayout({
           antialiased
         `}
       >
-        <main>{children}</main>
+        <main className="root">{children}</main>
       </body>
     </html>
   );
