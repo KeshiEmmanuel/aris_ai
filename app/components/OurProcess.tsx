@@ -15,7 +15,7 @@ function OurProcess() {
           end: "bottom bottom",
           // toggleActions: "start reverse",
           // scrub: true,
-          markers: true,
+          // markers: true,
         },
       });
 
@@ -39,13 +39,13 @@ function OurProcess() {
   return (
     <section
       ref={ourProcess}
-      className="h-screen text-gray-700 font-primary  w-full max-w-[1000px] w-full mx-auto flex flex-col justify-center gap-4"
+      className="h-screen text-gray-700 px-4 font-primary  w-full max-w-[1000px] w-full mx-auto flex flex-col justify-center gap-4"
     >
       <small className="text-xs font-semibold  uppercase text-black">
         How we work
       </small>
 
-      <aside className="text-4xl font-medium text-right">
+      <aside className="text-3xl lg:text-4xl font-medium text-right">
         <p className="our-process-details">We don't do long engagements.</p>
         <p className="our-process-details">
           We don't do "discovery phases" that last six weeks.
@@ -58,7 +58,7 @@ function OurProcess() {
       <aside>
         <p className="our-process-details">
           We do
-          <span className="text-4xl font-medium text-black our-process-details">
+          <span className="text-3xl lg:text-4xl font-medium text-black our-process-details">
             fourteen
           </span>
           days.
@@ -68,7 +68,7 @@ function OurProcess() {
         </p>
         <p className="our-process-details">not one after the other.</p>
       </aside>
-      <aside className="text-4xl font-medium text-right">
+      <aside className="text-3xl lg:text-4xl font-medium text-right">
         <p className="our-process-details">
           Day 01–02 · We learn your business.
         </p>
@@ -78,7 +78,7 @@ function OurProcess() {
       </aside>
       <aside>
         <p className="our-process-details">You walk away with a website</p>
-        <p className="text-4xl our-process-details  font-medium text-right">
+        <p className="text-3xl lg:text-4xl our-process-details  font-medium text-right">
           that works on day one.
         </p>
       </aside>

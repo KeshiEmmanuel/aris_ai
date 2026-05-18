@@ -8,6 +8,8 @@ function Studio() {
   const sectionRef = useRef(null);
   useGSAP(
     () => {
+      let mm = gsap.matchMedia();
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -44,7 +46,9 @@ function Studio() {
     <section ref={sectionRef} className="h-[400vh] font-primary">
       <article className="h-screen sticky top-0 flex items-center justify-center gap-4">
         <aside className="h-full studio-wrap  flex items-center gap-4">
-          <h1 className="studio-highlight text-[24rem] text-center">14</h1>
+          <h1 className="studio-highlight text-[12rem]  lg:text-[24rem] text-center">
+            14
+          </h1>
           <div className="studio-content-wrap w-0">
             <p className="highlight-p-1 text-xl  opacity-0">
               days from brief to live website.

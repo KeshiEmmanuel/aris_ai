@@ -15,7 +15,7 @@ function WhoWeWorkWith() {
           end: "bottom bottom",
           // toggleActions: "start reverse",
           // scrub: true,
-          markers: true,
+          // markers: true,
         },
       });
 
@@ -39,15 +39,15 @@ function WhoWeWorkWith() {
   return (
     <section
       ref={whoweworkwith}
-      className="h-screen text-gray-700 font-primary  w-full max-w-[1000px] w-full mx-auto flex flex-col justify-center gap-4 "
+      className="h-screen text-gray-700 font-primary  w-full max-w-[1000px] w-full mx-auto flex flex-col justify-center gap-4 px-4  lg:px-0"
     >
       <small className="text-xs font-semibold  uppercase text-black">
         the right fit
       </small>
-      <p className="text-4xl who-we-work-with font-medium">
+      <p className="text-3xl lg:text-4xl who-we-work-with font-medium">
         We work with B2B service companies that have outgrown how they appear.
       </p>
-      <aside className="text-4xl font-medium text-right">
+      <aside className="text-3xl lg:text-4xl font-medium text-right">
         <p className="who-we-work-with">Recruitment & staffing agencies.</p>
         <p className="who-we-work-with">Management consultancies.</p>
         <p className="who-we-work-with">Logistics and freight companies.</p>
@@ -56,13 +56,13 @@ function WhoWeWorkWith() {
         <p className="who-we-work-with">and Other b2b services companies</p>
       </aside>
       <aside>
-        <p className="text-4xl who-we-work-with  font-medium">
+        <p className="text-3xl lg:text-4xl who-we-work-with  font-medium">
           If your business is
           <span className="text-black px-2 font-semibold">serious</span>
           and your website
           <span className="px-2 font-semibold text-black">isn't.</span>
         </p>
-        <p className="text-4xl who-we-work-with font-medium">
+        <p className="text-3xl lg:text-4xl who-we-work-with font-medium">
           {" "}
           we should talk!
         </p>

@@ -6,11 +6,11 @@ const Projects = () => {
       <article>
         <h2 className="text-center font-medium  text-lg">Selected Work</h2>
       </article>
-      <aside className="flex gap-4 w-full flex-wrap  h-full">
-        <div className="w-[700px] rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
-        <div className="w-[700px] rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
-        <div className="w-[700px] rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
-        <div className="w-[700px] rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
+      <aside className="grid grid-col-1 lg:grid-cols-2  gap-4 w-full h-full">
+        <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
+        <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
+        <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
+        <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
       </aside>
     </section>
   );

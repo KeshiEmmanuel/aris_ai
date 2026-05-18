@@ -57,7 +57,7 @@ export default function FlipButton() {
   return (
     <button
       ref={buttonRef}
-      className="text-6xl bg-[#c8ff00] px-10 py-6 rounded-full text-black flex items-center gap-4 overflow-hidden"
+      className="text-xl lg:text-6xl bg-[#c8ff00] px-8 py-5  lg:px-10 lg:py-6 rounded-full text-black flex items-center justify-between lg:gap-4 overflow-hidden"
     >
       {/* Text */}
       <span className="relative inline-block overflow-hidden">
@@ -68,12 +68,12 @@ export default function FlipButton() {
       </span>
 
       {/* Icon */}
-      <span className="relative inline-block overflow-hidden">
+      <span className="relative inline-block overflow-hidden text-2xl">
         <span className="icon-default block">
-          <FiArrowUpRight className="bg-black text-white p-2 rounded-full" />
+          <FiArrowUpRight className="bg-black text-white p-1 lg:p-2 rounded-full" />
         </span>
         <span className="icon-hover absolute inset-0 flex">
-          <FiArrowUpRight className="bg-black text-white p-2 rounded-full" />
+          <FiArrowUpRight className="bg-black text-white p-1 lg:p-2 rounded-full" />
         </span>
       </span>
     </button>

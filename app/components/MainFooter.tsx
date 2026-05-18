@@ -51,11 +51,11 @@ function MainFooter() {
       className="h-screen px-10  bg-black text-gray-100 pt-20 pb-10"
     >
       <article className="flex flex-col h-full justify-between">
-        <h1 className="main-footer-headline text-8xl">
+        <h1 className="main-footer-headline text-5xl  lg:text-8xl">
           Your next client is already looking at your website.
         </h1>
         <aside className="flex flex-col gap-10">
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-4  lg:flex-row lg:justify-between">
             <FlipButton />
 
             <p className="max-w-[480px] main-footer-subtitle">
@@ -63,7 +63,7 @@ function MainFooter() {
               about whether we're the right fit.
             </p>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center  text-sm  lg:text-base justify-between">
             <p>ZENDT STUDIO © 2026</p>
             <a href="https://linkedin.com/company/zendt-studio" target="_blank">
               LINKEDIN{" "}
