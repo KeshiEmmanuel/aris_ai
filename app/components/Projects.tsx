@@ -7,8 +7,12 @@ const Projects = () => {
         <h2 className="text-center font-medium  text-lg">Selected Work</h2>
       </article>
       <aside className="grid grid-col-1 lg:grid-cols-2  gap-4 w-full h-full">
-        <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
-        <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
+        <div className="w-full flex flex-col  rounded-lg h-full">
+          <img src={"/obrien.png"} className="w-full" />
+        </div>
+        <div className="w-full flex flex-col  rounded-lg h-full">
+          <img src={"/maq.png"} className="w-full" />
+        </div>
         <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
         <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
       </aside>

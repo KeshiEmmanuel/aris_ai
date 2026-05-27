@@ -29,7 +29,7 @@ function StudioBrief() {
         opacity: 0,
         skewX: "40",
         ease: "power2.out",
-        stagger: 0.08,
+        stagger: 0.02,
       });
     },
     { scope: sectionRef },

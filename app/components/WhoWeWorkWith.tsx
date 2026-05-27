@@ -29,7 +29,7 @@ function WhoWeWorkWith() {
         opacity: 0,
         skewX: "40",
         ease: "power4.out",
-        stagger: 0.2,
+        stagger: 0.1,
       });
     },
     {

@@ -31,7 +31,7 @@ const Hero = () => {
         ease: "power1.out",
         stagger: {
           from: "edges",
-          amount: 0.8,
+          amount: 0.2,
         },
       });
     },
@@ -43,7 +43,7 @@ const Hero = () => {
       ref={HeroSection}
       className="max-w-[800px] h-screen font-primary pt-52  w-full mx-auto flex flex-col items-center gap-4"
     >
-      <h1 className="hero-title max-w-[560px] font-semibold text-4xl md:text-5xl text-center">
+      <h1 className="hero-title max-w-[560px] font-semibold text-5xl md:text-5xl text-center">
         Your business has grown. Your website hasn't.
       </h1>
       <p className="text-gray-700 hero-subtitle">

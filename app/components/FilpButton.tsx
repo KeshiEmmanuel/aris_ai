@@ -68,7 +68,7 @@ export default function FlipButton() {
       </span>
 
       {/* Icon */}
-      <span className="relative inline-block overflow-hidden text-2xl">
+      <span className="relative inline-block overflow-hidden">
         <span className="icon-default block">
           <FiArrowUpRight className="bg-black text-white p-1 lg:p-2 rounded-full" />
         </span>

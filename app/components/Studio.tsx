@@ -10,7 +10,7 @@ function Studio() {
     () => {
       let mm = gsap.matchMedia();
 
-      const tl = gsap.timeline({
+      const scrollConfig = {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
@@ -18,27 +18,47 @@ function Studio() {
           scrub: true,
           // markers: true,
         },
-      });
+      };
+      const tl = gsap.timeline(scrollConfig);
 
       let studioHighlight = SplitText.create(".studio-highlight", {
         type: "chars",
         mask: "chars",
       });
 
-      tl.from(studioHighlight.chars, {
-        y: "100%",
-        ease: "power2.out",
-        stagger: 0.05,
-      })
-        .to(".studio-content-wrap", {
-          ease: "power1.out",
-          width: "500px",
+      mm.add("(max-width: 500px)", () => {
+        // const tl = gsap.timeline(scrollConfig);
+        tl.from(studioHighlight.chars, {
+          y: "100%",
+          ease: "power2.out",
+          stagger: 0.02,
         })
-        .to(".highlight-p-1 ", {
-          opacity: 1,
-          stagger: 0.01,
-        });
+          .to(".studio-content-wrap", {
+            ease: "power1.out",
+            width: "10rem",
+          })
+          .to(".highlight-p-1 ", {
+            opacity: 1,
+            stagger: 0.01,
+          });
+      });
+      mm.add("(min-width: 768px)", () => {
+        tl.from(studioHighlight.chars, {
+          y: "100%",
+          ease: "power2.out",
+          stagger: 0.02,
+        })
+          .to(".studio-content-wrap", {
+            ease: "power1.out",
+            width: "20rem",
+          })
+          .to(".highlight-p-1 ", {
+            opacity: 1,
+            stagger: 0.01,
+          });
+      });
     },
+
     { scope: sectionRef },
   );
 
@@ -46,19 +66,21 @@ function Studio() {
     <section ref={sectionRef} className="h-[400vh] font-primary">
       <article className="h-screen sticky top-0 flex items-center justify-center gap-4">
         <aside className="h-full studio-wrap  flex items-center gap-4">
-          <h1 className="studio-highlight text-[12rem]  lg:text-[24rem] text-center">
+          <h1 className="studio-highlight text-[14rem]  lg:text-[24rem] text-center">
             14
           </h1>
           <div className="studio-content-wrap w-0">
-            <p className="highlight-p-1 text-xl  opacity-0">
+            <p className="highlight-p-1 text-base lg:text-xl  opacity-0">
               days from brief to live website.
             </p>
-            <p className="highlight-p-1 text-xl  opacity-0">Not a prototype.</p>
-            <p className="highlight-p-1 text-xl  opacity-0">
+            <p className="highlight-p-1 text-base  lg:text-xl  opacity-0">
+              Not a prototype.
+            </p>
+            <p className="highlight-p-1 text-base  lg:text-xl  opacity-0">
               {" "}
               Not a staging site.
             </p>
-            <p className="highlight-p-1 text-xl  opacity-0">
+            <p className="highlight-p-1 text-base  lg:text-xl  opacity-0">
               A finished website, ready to win business.
             </p>
           </div>
