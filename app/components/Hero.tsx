@@ -39,21 +39,26 @@ const Hero = () => {
   );
 
   return (
-    <section
-      ref={HeroSection}
-      className="max-w-[800px] h-screen font-primary pt-52  w-full mx-auto flex flex-col items-center gap-4"
-    >
-      <h1 className="hero-title max-w-[560px] font-semibold text-5xl md:text-5xl text-center">
-        Your business has grown. Your website hasn't.
-      </h1>
-      <p className="text-gray-700 hero-subtitle">
-        We build websites for B2B service companies. In
-        <span className="font-bold px-0.5">14</span> days.
-      </p>
-      <button className="btn px-4 py-2 rounded-full text-gray-800">
-        <a href="https://cal.com/chidera-keshi-qy98f0/30min">Start a project</a>
-      </button>
-    </section>
+   <section
+  ref={HeroSection}
+  className="h-[400vh] font-primary w-full flex px-10 gap-4"
+>
+  <div className="sticky top-0 pt-52  h-screen flex flex-col justify-start w-1/2">
+    <h1 className="hero-title max-w-[600px] font-semibold text-5xl md:text-5xl">
+      We build websites for legal tech companies & startups.
+    </h1>
+
+    <button className="btn px-4 py-2 rounded-xl text-gray-800 w-fit mt-4">
+      <a href="https://cal.com/chidera-keshi-qy98f0/30min">Book a call</a>
+    </button>
+  </div>
+  <div className="w-1/2 pt-10 flex flex-col gap-4">
+    <div className=" h-screen bg-gray-100"></div>
+    <div className="h-screen bg-gray-100"></div>
+    <div className="h-screen bg-gray-100"></div>
+    <div className="h-screen bg-gray-100"></div>
+  </div>
+</section>
   );
 };
 

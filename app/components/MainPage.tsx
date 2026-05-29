@@ -16,14 +16,14 @@ const MainPage = () => {
       <LenisProvider>
         <Navbar />
         <Hero />
-        <Projects />
+        {/* <Projects />
         <StudioBrief />
         <WhoWeWorkWith />
         <OurProcess />
         <Studio />
         <StudioUs />
         <FAQsection />
-        <MainFooter />
+        <MainFooter /> */}
       </LenisProvider>
     </main>
   );

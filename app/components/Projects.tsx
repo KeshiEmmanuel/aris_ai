@@ -11,7 +11,7 @@ const Projects = () => {
           <img src={"/obrien.png"} className="w-full" />
         </div>
         <div className="w-full flex flex-col  rounded-lg h-full">
-          <img src={"/maq.png"} className="w-full" />
+          <img src={"/goodwin.png"} className="w-full" />
         </div>
         <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
         <div className="w-full rounded-lg animate-pulse  h-[500px] bg-gray-200"></div>
