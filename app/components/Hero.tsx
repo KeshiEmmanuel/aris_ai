@@ -45,7 +45,7 @@ const Hero = () => {
 >
   <div className="sticky top-0 pt-52  h-screen flex flex-col justify-start w-1/2">
     <h1 className="hero-title max-w-[600px] font-semibold text-5xl md:text-5xl">
-      We build websites for legal tech companies & startups.
+      We build premium long lasting digital experiences for the B2B space
     </h1>
 
     <button className="btn px-4 py-2 rounded-xl text-gray-800 w-fit mt-4">
