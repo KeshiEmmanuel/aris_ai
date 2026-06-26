@@ -41,7 +41,7 @@ const Hero = () => {
   return (
    <section
   ref={HeroSection}
-  className="h-[400vh] font-primary w-full flex px-10 gap-4"
+  className="font-primary w-full flex px-10 gap-4"
 >
   <div className="sticky top-0 pt-52  h-screen flex flex-col justify-start w-1/2">
     <h1 className="hero-title max-w-[600px] font-semibold text-5xl md:text-5xl">
@@ -53,9 +53,16 @@ const Hero = () => {
     </button>
   </div>
   <div className="w-1/2 pt-10 flex flex-col gap-4">
-    <div className=" h-screen bg-gray-100"></div>
-    <div className="h-screen bg-gray-100"></div>
-    <div className="h-screen bg-gray-100"></div>
+   <a href="https://hireright-phi.vercel.app/" target="_blank">
+    <div className="border border-gray-200">
+      <img src={"/goodwinhalf.png"} alt="a Recuritment Agency Website revamp"/>
+    </div>
+   </a>
+    <div className="border border-gray-200">
+    <a href="https://keshi-first-project.webflow.io/" target="_blank">
+      <img src={"/obrien.png"} alt="a Recuritment Agency Website revamp"/>
+    </a>
+    </div>
     <div className="h-screen bg-gray-100"></div>
   </div>
 </section>
