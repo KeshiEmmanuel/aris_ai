@@ -41,10 +41,10 @@ const Hero = () => {
   return (
    <section
   ref={HeroSection}
-  className="font-primary w-full flex px-10 gap-4"
+  className="font-primary w-full flex flex-col md:flex-row px-4 md:px-10 gap-4"
 >
-  <div className="sticky top-0 pt-52  h-screen flex flex-col justify-start w-1/2">
-    <h1 className="hero-title max-w-[600px] font-semibold text-5xl md:text-5xl">
+  <div className="md:sticky top-0 pt-20 md:pt-52 md:h-screen flex flex-col justify-start w-full md:w-1/2">
+    <h1 className="hero-title max-w-[600px] font-semibold text-3xl md:text-5xl">
       We build premium long lasting digital experiences for the B2B space
     </h1>
 
@@ -52,18 +52,18 @@ const Hero = () => {
       <a href="https://cal.com/chidera-keshi-qy98f0/30min">Book a call</a>
     </button>
   </div>
-  <div className="w-1/2 pt-10 flex flex-col gap-4">
-   <a href="https://hireright-phi.vercel.app/" target="_blank">
-    <div className="border border-gray-200">
-      <img src={"/goodwinhalf.png"} alt="a Recuritment Agency Website revamp"/>
-    </div>
-   </a>
-    <div className="border border-gray-200">
-    <a href="https://keshi-first-project.webflow.io/" target="_blank">
-      <img src={"/obrien.png"} alt="a Recuritment Agency Website revamp"/>
+  <div className="w-full md:w-1/2 pt-10 flex flex-col gap-4">
+    <a href="https://hireright-phi.vercel.app/" target="_blank">
+      <div className="border border-gray-200">
+        <img src={"/goodwinhalf.png"} alt="a Recuritment Agency Website revamp" />
+      </div>
     </a>
+    <div className="border border-gray-200">
+      <a href="https://keshi-first-project.webflow.io/" target="_blank">
+        <img src={"/obrien.png"} alt="a Recuritment Agency Website revamp" />
+      </a>
     </div>
-    <div className="h-screen bg-gray-100"></div>
+    <div className="h-60 md:h-screen bg-gray-100"></div>
   </div>
 </section>
   );
