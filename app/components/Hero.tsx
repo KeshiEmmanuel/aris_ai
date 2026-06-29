@@ -44,12 +44,12 @@ const Hero = () => {
   className="font-primary w-full flex flex-col md:flex-row px-4 md:px-10 gap-4"
 >
   <div className="md:sticky top-0 pt-20 md:pt-52 md:h-screen flex flex-col justify-start w-full md:w-1/2">
-    <h1 className="hero-title max-w-[600px] font-semibold text-3xl md:text-5xl">
-      We build premium long lasting digital experiences for the B2B space
-    </h1>
-
+    <h1 className="hero-title max-w-[720px] font-semibold text-2xl  md:text-5xl">
+     Your B2B website should be your best salesperson.
+If it isn't We fixes that in 14 days.
+</h1>
     <button className="btn px-4 py-2 rounded-xl text-gray-800 w-fit mt-4">
-      <a href="https://cal.com/chidera-keshi-qy98f0/30min">Book a call</a>
+      <a href="https://cal.com/chidera-keshi-qy98f0/30min">Book a Free call</a>
     </button>
   </div>
   <div className="w-full md:w-1/2 pt-10 flex flex-col gap-4">

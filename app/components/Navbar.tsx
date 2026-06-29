@@ -20,7 +20,7 @@ const Navbar = () => {
           </li>
         </ul>
         <button className="bg-black text-gray-200 px-4 py-2 text-sm  rounded-xl">
-          Let's Talk
+     <a href="https://cal.com/chidera-keshi-qy98f0/30min">Let's Talk</a>
         </button>
       </div>
     </nav>
