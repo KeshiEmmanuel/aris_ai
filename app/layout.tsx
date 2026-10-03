@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Geist } from "next/font/google";
 
-// ─── Inter ────────────────────────────────────────────────────────────────────
+// ─── Fonts ────────────────────────────────────────────────────────────────────
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -17,48 +17,67 @@ const geist = Geist({
   weight: ["400", "500", "600", "700"],
 });
 
+// ─── Metadata ─────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
   metadataBase: new URL("https://zendt.site"),
 
   title: {
-    default: "Zendt Studio | Web Design for B2B Service Companies",
+    default: "Zendt Studio | Data Engineering for Growing Businesses",
     template: "%s | Zendt Studio",
   },
 
   description:
-    "Zendt builds high-converting websites for B2B service companies — recruitment agencies, consultancies, logistics firms, and financial advisors. Delivered in 14 days.",
+    "Zendt turns scattered spreadsheets and software into one reliable source of truth. Data engineering, automated reporting, and dashboards for distributors, clinics, schools, retailers, and hospitality groups.",
 
   keywords: [
-    "web design for recruitment agencies",
-    "website redesign for consulting firms",
-    "web design for logistics companies",
-    "web design for financial advisory firms",
-    "web design for IT managed service providers",
-    "web design for staffing companies",
-    "web design for professional services firms",
-    "B2B service company website design",
+    // Core service
+    "data engineering for small business",
+    "data engineering studio",
+    "data engineering for non-tech companies",
+    "data consulting for SMEs",
+    "single source of truth for business data",
+    "business data consolidation",
 
-    "web design studio 14 day delivery",
-    "fast website design for businesses",
-    "quick website redesign B2B",
+    // Problem-led searches (what buyers actually type)
+    "automate excel reports",
+    "stop using spreadsheets for reporting",
+    "automated management reports",
+    "dashboard for business owners",
+    "connect POS and accounting data",
+    "reconcile sales and inventory data",
+    "move off spreadsheets",
 
-    "B2B web design studio Canada",
-    "web design agency for recruitment companies Toronto",
-    "professional services website design Vancouver",
-    "website redesign for consultants Canada",
+    // Services
+    "data audit for business",
+    "data warehouse setup for small business",
+    "ETL pipeline for SMEs",
+    "BigQuery setup for business",
+    "dbt consulting",
+    "Power BI dashboard development",
+    "Looker Studio dashboards",
+    "Metabase setup",
 
-    "B2B web design agency Dubai",
-    "website design for companies in UAE",
-    "web design studio Abu Dhabi B2B",
+    // Industries
+    "data analytics for distributors",
+    "data dashboard for wholesalers",
+    "clinic management reporting dashboard",
+    "school fees and attendance reporting",
+    "restaurant sales and food cost dashboard",
+    "multi-branch retail reporting",
+    "logistics and fleet data reporting",
 
-    "B2B web design Australia",
-    "web design agency for service companies Sydney",
-    "website redesign Melbourne B2B",
+    // Location
+    "data engineering studio Canada",
+    "data consulting Toronto",
+    "business intelligence consultant Vancouver",
+    "data engineering UAE",
+    "data analytics consulting Dubai",
+    "business intelligence Abu Dhabi",
+    "data engineering Australia",
+    "data consulting Sydney",
+    "business intelligence consultant Melbourne",
 
-    "hire web design studio for B2B company",
-    "website that converts B2B leads",
-    "B2B website conversion design",
-    "web studio for service businesses",
+    // Brand
     "zendt",
     "zendt studio",
   ],
@@ -83,15 +102,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://zendt.site",
     siteName: "Zendt Studio",
-    title: "Zendt Studio | Web Design for B2B Service Companies",
+    title: "Zendt Studio | Data Engineering for Growing Businesses",
     description:
-      "High-converting websites for recruitment agencies, consultancies, logistics firms, and financial advisors. Built and delivered in 14 days.",
+      "Stop asking “which number is right?” One reliable source of truth, with reports that update themselves.",
     images: [
       {
         url: "/og-image.png", // 1200×630px — add to /public
         width: 1200,
         height: 630,
-        alt: "Zendt Studio — Web Design for B2B Service Companies",
+        alt: "Zendt Studio — Data Engineering for Growing Businesses",
       },
     ],
   },
@@ -100,9 +119,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@zendtstudio", // update when you have the handle
     creator: "@zendtstudio",
-    title: "Zendt Studio | Web Design for B2B Service Companies",
+    title: "Zendt Studio | Data Engineering for Growing Businesses",
     description:
-      "High-converting websites for B2B service companies. Delivered in 14 days.",
+      "Scattered spreadsheets in. One source of truth out. Automated reporting for growing businesses.",
     images: ["/og-image.png"],
   },
 
@@ -116,6 +135,24 @@ export const metadata: Metadata = {
   // },
 };
 
+// ─── Structured data (helps Google understand what you offer) ────────────────
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Zendt Studio",
+  url: "https://zendt.site",
+  description:
+    "Data engineering studio helping non-tech businesses consolidate their data, automate reporting, and build dashboards.",
+  areaServed: ["Canada", "United Arab Emirates", "Australia"],
+  serviceType: [
+    "Data audit",
+    "Data warehouse setup",
+    "Data pipeline development",
+    "Dashboards and automated reporting",
+    "Ongoing data support",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -123,6 +160,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`
           ${inter.variable}
