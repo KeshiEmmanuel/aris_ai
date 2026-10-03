@@ -2,27 +2,23 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="fixed  px-4 py-2 rounded-xl  font-primary top-5 left-0 right-0  w-full max-w-[500px] z-10 bg-gray-50 border border-gray-300  mx-auto">
-      <div className=" flex items-center justify-between">
-        <aside className="flex items-center gap-2">
-          <img src={"/zendt_new_logo.jpeg"} className="w-6 h-6 rounded" />
-          <p className="text-sm font-semibold">Zendt</p>
-        </aside>
-        <ul className="flex items-center justify-between gap-2">
-          <li>
-            <a>Work.</a>
-          </li>
-          <li>
-            <a>Process.</a>
-          </li>
-          <li>
-            <a>Studio.</a>
-          </li>
-        </ul>
-        <button className="bg-black text-gray-200 px-4 py-2 text-sm  rounded-xl">
-     <a href="https://cal.com/chidera-keshi-qy98f0/30min">Let's Talk</a>
+    <nav className="fixed  py-2 rounded-xl  font-primary top-5 left-0 right-0  w-full px-12 flex items-center justify-between">
+      <h2 className="text-[#A3A1A6]">Zendteam</h2>
+      <a href="mailto:keshi@zendt.site" target="_blank">
+        <button
+          style={{
+            paddingInline: "24px",
+            paddingBlock: "10px",
+            color: "#F6EBFF ",
+            borderRadius: "12px",
+            fontSize: "20px",
+            backgroundColor: "#7C0AF5",
+          }}
+          className="w-fit"
+        >
+          Hire Us
         </button>
-      </div>
+      </a>
     </nav>
   );
 };
